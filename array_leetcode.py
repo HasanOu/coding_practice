@@ -269,26 +269,165 @@ Output: -1
 """
 
 
-def search_in_rotated_rorted_array(arr, target):
-
-    lo = 0
-    hi = len(arr) - 1
-
-    while lo < hi:
-        middle_val = (arr[lo]+arr[hi])/2
-        middle_point = int((lo+hi)/2)
-
-        if target <= middle_val:
-            hi = middle_point
-        else:
-            lo = middle_point
-
-        if arr[middle_point] == target:
-            return middle_point
-
+def search_in_rotated_rorted_array(nums, target):
+    # Initilize two pointers
+    begin = 0
+    end = len(nums) - 1
+    while begin <= end:
+        mid = (begin + end)//2
+        if nums[mid] == target:
+            return mid
+        if nums[mid] > nums[end]: # Left side of mid is sorted
+            if  nums[begin] <= target and target < nums[mid]: # Target in the left side
+                end = mid - 1
+            else: # in right side
+                begin = mid + 1
+        else: # Right side is sorted
+            if  nums[mid] < target and target <= nums[end]: # Target in the right side
+                begin = mid + 1
+            else: # in left side
+                end = mid - 1
     return -1
 
-arr = [8, 0, 1,2,3,4]
-output = search_in_rotated_rorted_array(arr, 8)
+arr = [7, 8, 0, 1, 2, 3, 4]
+output = search_in_rotated_rorted_array(arr, 7)
 print(output)
 
+""" Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the 
+following rules:
+    Each row must contain the digits 1-9 without repetition.
+    Each column must contain the digits 1-9 without repetition.
+    Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.
+
+Note:
+    A Sudoku board (partially filled) could be valid but is not necessarily solvable.
+    Only the filled cells need to be validated according to the mentioned rules.
+
+Input: board = 
+[["5","3",".",".","7",".",".",".","."]
+,["6",".",".","1","9","5",".",".","."]
+,[".","9","8",".",".",".",".","6","."]
+,["8",".",".",".","6",".",".",".","3"]
+,["4",".",".","8",".","3",".",".","1"]
+,["7",".",".",".","2",".",".",".","6"]
+,[".","6",".",".",".",".","2","8","."]
+,[".",".",".","4","1","9",".",".","5"]
+,[".",".",".",".","8",".",".","7","9"]]
+Output: true
+"""
+
+
+def valid_sodoku(arr):
+
+    for i in range(9):
+        for j in range(9):
+            if arr[i][j] == ".":
+                arr[i][j] = f"{(i, j)}"
+
+    for i in range(9):
+        if len(set(arr[i])) != len(arr[i]):
+            return False
+
+    for j in range(9):
+        col_arr = [arr[i][j] for i in range(9)]
+        if len(set(col_arr)) != len(col_arr):
+            return False
+
+    for i in range(6):
+        for j in range(6):
+            List = []
+            for x in np.arange(i, i+2):
+                for y in np.arange(j, j+2):
+                    item = arr[x][y]
+                    if item in List:
+                        return False
+                    List.append(arr[x][y])
+    return True
+
+def sodoku1(arr):
+    # Use hash set to record the status
+
+    N = 9
+    rows = [set() for _ in range(N)]
+    cols = [set() for _ in range(N)]
+    boxes = [set() for _ in range(N)]
+
+    for r in range(N):
+        for c in range(N):
+            val = arr[r][c]
+            # Check if the position is filled with number
+            if val == ".":
+                continue
+
+            # Check the row
+            if val in rows[r]:
+                return False
+            rows[r].add(val)
+
+            # Check the column
+            if val in cols[c]:
+                return False
+            cols[c].add(val)
+
+            # Check the box
+            idx = (r // 3) * 3 + c // 3
+            if val in boxes[idx]:
+                return False
+            boxes[idx].add(val)
+
+    return True
+
+
+arr = [["5","3",".",".","7",".",".",".","."]
+,["6",".",".","1","9","5",".",".","."]
+,[".","9","8",".",".",".",".","2","."]
+,["8",".",".",".","6",".",".",".","3"]
+,["4",".",".","8",".","3",".",".","1"]
+,["7",".",".",".","2",".",".",".","6"]
+,[".","6",".",".",".",".","2","8","."]
+,[".",".",".","4","1","9",".",".","5"]
+,[".",".",".",".","8",".",".","7","9"]]
+output = sodoku1(arr)
+print(output)
+
+
+"""
+Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+
+A subarray is a contiguous part of an array.
+Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+Output: 6
+Explanation: [4,-1,2,1] has the largest sum = 6.
+"""
+
+
+def Maximum_Subarray(arr):
+    max_sum = 0
+    temp_sum = 0
+    List = []
+    for val in arr:
+        temp_sum +=val
+        List = List + [val]
+
+        if temp_sum > max_sum:
+            max_sum = temp_sum
+            best_list = List
+
+        if temp_sum < 0:
+            temp_sum = 0
+            List = []
+
+    return max_sum, best_list
+
+arr = [4,1,2,-1]
+output =  Maximum_Subarray(arr)
+print(output)
+
+"""
+Given an array of intervals where intervals[i] = [start_i, end_i], merge all overlapping intervals, 
+and return an array of the non-overlapping intervals that cover all the intervals in the input.
+
+Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+Output: [[1,6],[8,10],[15,18]]
+Explanation: Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].
+"""
