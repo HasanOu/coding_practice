@@ -129,7 +129,6 @@ print(max({1, 2, 3}))
 x = iter(("Hello", "Bye"))
 next(x)
 
-
 # Returns the value of x to the power of y
 print(pow(2, 3))
 
@@ -137,7 +136,7 @@ print(pow(2, 3))
 print("hello")
 
 # Returns a sequence of numbers, starting from 0 and increments by 1 (by default)
-print(range(1,10,2))
+print(range(1, 10, 2))
 
 for i in range(1, 10, 2):
     print(i)
@@ -146,16 +145,14 @@ for i in range(1, 10, 2):
 for i in reversed((1, 2, 3)):
     print(i)
 
-a= [1, 2, 3]
+a = [1, 2, 3]
 print(a[::-1])
-
 
 # Rounds numbers
 print(round(5.76543, 2))
 
 x = set(['apple', 'banana', 'cherry'])
 print(x)
-
 
 a = ("a", "b", "c", "d", "e", "f", "g", "h")
 print(a[slice(2, 7, 2)])
@@ -167,13 +164,13 @@ sorted([1, 4, 2])
 print(str([1, 23])[0])
 
 # Sums the items of an iterator
-print(sum((1,2,3)))
+print(sum((1, 2, 3)))
 
 # Returns a tuple
 print(tuple([1, 2, 3]))
 
 # Returns the type of an object
-print(type(tuple([1,2,3])))
+print(type(tuple([1, 2, 3])))
 print(type(5))
 
 # Returns an iterator, from two or more iterators
@@ -185,3 +182,64 @@ x = zip(a, b, c)
 for i in x:
     print(i)
 
+# =========================================== Python String Methods
+my_string = "   hello, and hello welcome to my world.   "
+
+# methods to update lower/upper cases
+print("my_string.capitalize()", my_string.capitalize())
+print("my_string.upper()", my_string.upper())
+print("my_string.isupper()", my_string.isupper())
+print("my_string.lower()", my_string.lower())
+print("my_string.casefold()", my_string.casefold())   # more aggresive than lower and applies on unicode text as well.
+print("my_string.islower()", my_string.islower())
+print("my_string.title()", my_string.title())
+print("my_string.istitle()", my_string.istitle())
+print("my_string.swapcase()", my_string.swapcase())
+print("my_string.strip().zfill(50)", my_string.strip().zfill(50))
+
+# methods to update the location of string
+print('my_string.strip()', my_string.strip())
+print('my_string.lstrip()', my_string.lstrip())
+print('my_string.rstrip()', my_string.rstrip())
+print("my_string.center(len(my_string)+2, \"-\")", my_string.center(len(my_string)+20, "-"))
+print("my_string.ljust()", my_string.ljust(100))
+print("my_string.rjust()", my_string.rjust(100))
+print("my_string.isspace()", my_string.isspace())
+
+# methods to find/replace in string
+print("my_string.find(\"hello\")", my_string.find("hello"))
+print("my_string.rfind(\"hello\")", my_string.rfind("hello"))
+print("my_string.count(\"hello\")", my_string.count("hello"))
+print("my_string.replace(\"hello\")", my_string.replace("hello", "good morning"))
+print("my_string.endswith(\"hello\")", my_string.endswith("world."))
+print("my_string.startswith(\"hello\")", my_string.endswith("Hello"))
+
+# methods to check the numeric and alphabet values in string
+print('"ABC123".isalnum()', "ABC123".isalnum())
+print('"ABC".isalnum()', "ABC123".isalnum())
+print('"011231".isdigit()', "011231".isdigit())
+print('"011231".isdecimal()', "011231".isdecimal())
+print('"011231".isnumeric()', "011231".isnumeric())
+
+unicode_num = '⅔'
+print("'⅔'.isdigit()", '⅔'.isdigit())   # False
+print("'⅔'.isdecimal()", '⅔'.isdecimal())   # False
+print("'⅔'.isnumeric()", '⅔'.isnumeric())   # False
+
+roman_numeral = 'ↁ'
+print("roman_numeral.isdigit()", roman_numeral.isdigit())
+print("roman_numeral.isdecimal()", roman_numeral.isdecimal())
+print("roman_numeral.isnumeric()", roman_numeral.isnumeric())
+
+fraction = '2/3'
+print("fraction.isdigit()", roman_numeral.isdigit())
+print("fraction.isdecimal()", roman_numeral.isdecimal())
+print("fraction.isnumeric()", roman_numeral.isnumeric())
+
+# important methods in string
+print("->".join(("John", "Peter", "Vicky")), "->".join(("John", "Peter", "Vicky")))
+print("my_string.partition(\"hello\")", my_string.partition("hello"))
+print("my_string.rpartition(\"hello\")", my_string.rpartition("hello"))
+print("my_string.split(\"hello\")", my_string.split("hello", 1))
+print("my_string.rsplit(\"hello\")", my_string.rsplit("hello", 1))   # if we add maxsplit they rsplit and split behave differently.
+print('"Thank you for the music\nWelcome to the jungle".splitlines()', "Thank you for the music\nWelcome to the jungle".splitlines())
