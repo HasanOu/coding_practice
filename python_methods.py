@@ -182,7 +182,7 @@ x = zip(a, b, c)
 for i in x:
     print(i)
 
-# =========================================== Python String Methods
+# =========================================== Python String Methods ===============================================
 my_string = "   hello, and hello welcome to my world.   "
 
 # methods to update lower/upper cases
@@ -243,3 +243,27 @@ print("my_string.rpartition(\"hello\")", my_string.rpartition("hello"))
 print("my_string.split(\"hello\")", my_string.split("hello", 1))
 print("my_string.rsplit(\"hello\")", my_string.rsplit("hello", 1))   # if we add maxsplit they rsplit and split behave differently.
 print('"Thank you for the music\nWelcome to the jungle".splitlines()', "Thank you for the music\nWelcome to the jungle".splitlines())
+
+# ======================================= list methods =====================================================
+print("************ list methods **************")
+my_list = [1, 4, 5, 6, 2, 3, 3, 4, 5]
+
+print("my_list.append(1000)", my_list.append(1000), my_list)
+print("my_list.append([2000, 3000, 4000])", my_list.append([2000, 3000, 4000]), my_list)
+new_list = my_list.copy()
+print("new_list = my_list.copy()", new_list)
+print("my_list.count(2)", my_list.count(2))
+print("my_list.extend([1,2,3])", my_list.extend([1, 2, 3]), my_list)
+print("my_list.index(4)", my_list.index(4))
+print("my_list.insert(3, 100)", my_list.insert(3, 100), my_list)
+print("my_list.insert(3, 100)", my_list.pop(3), my_list)
+print("my_list.remove(2000)", my_list.remove(1000), my_list)
+print("my_list.reverse()", my_list.reverse(), my_list)
+my_list_2 = [1, 2, 4, 1]
+my_list_2.sort()
+print("[1,2,3,0.5].sort()", my_list_2.sort(), my_list_2, sorted(my_list_2))
+print("my_list.clear()", my_list.clear())
+print("my_list", my_list)
+
+
+
