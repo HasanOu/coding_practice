@@ -241,7 +241,7 @@ The replacement must be in place and use only constant extra memory.
 
 
 def next_permutation(arr):
-    if sorted(arr, reverse = True) == arr:
+    if sorted(arr, reverse=True) == arr:
         return sorted(arr)
 
     hi = len(arr) - 1
@@ -445,7 +445,7 @@ Explanation: Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].
 
 
 def merge_interval(arr):
-    arr.sort(key = lambda x: x[0])
+    arr.sort(key=lambda x: x[0])
 
     merged = []
     for item in arr:
@@ -460,7 +460,6 @@ def merge_interval(arr):
 arr = [[0, 4], [5, 7], [2, 3]]
 output = merge_interval(arr)
 print(output)
-
 
 """
 Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.
@@ -532,10 +531,10 @@ def website_domain(cpdomains):
 
     return list_
 
+
 cpdomains = ["900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", "5 wiki.org"]
 output = website_domain(cpdomains)
 print(output)
-
 
 """
 A peak element is an element that is strictly greater than its neighbors.
@@ -562,13 +561,13 @@ def peak(arr):
     start = 0
     end = len(arr) - 1
     while start < end:
-        mid_point = int((start+end)/2)
+        mid_point = int((start + end) / 2)
         print(mid_point)
-        if arr[mid_point] >= arr[mid_point-1] and arr[mid_point] >= arr[mid_point+1]:
+        if arr[mid_point] >= arr[mid_point - 1] and arr[mid_point] >= arr[mid_point + 1]:
             return arr[mid_point]
-        if arr[mid_point] < arr[mid_point+1]:
+        if arr[mid_point] < arr[mid_point + 1]:
             start = mid_point + 1
-        elif arr[mid_point] < arr[mid_point-1]:
+        elif arr[mid_point] < arr[mid_point - 1]:
             end = mid_point - 1
 
     return -1
@@ -578,24 +577,47 @@ arr = [5, 0, -1, 0, 1, 2]
 output = peak(arr)
 print(output)
 
-
 """
-Given an integer array nums and an integer k, return the kth largest element in the array.
-
-Note that it is the kth largest element in the sorted order, not the kth distinct element.
+Given a string s, return the longest palindromic substring in s.
 
 Example 1:
 
-Input: nums = [3,2,1,5,6,4], k = 2
-Output: 5
+Input: s = "babad"
+Output: "bab"
+Explanation: "aba" is also a valid answer.
 
 Example 2:
 
-Input: nums = [3,2,3,1,2,4,5,5,6], k = 4
-Output: 4
+Input: s = "cbbd"
+Output: "bb"
+"""
+
+"""
+Given a signed 32-bit integer x, return x with its digits reversed. 
+If reversing x causes the value to go outside the signed 32-bit integer range [-231, 231 - 1], then return 0.
+
+Assume the environment does not allow you to store 64-bit integers (signed or unsigned).
+
+Example 1:
+
+Input: x = 123
+Output: 321
+
+Example 2:
+
+Input: x = -123
+Output: -321
+
+Example 3:
+
+Input: x = 120
+Output: 21
 """
 
 
-
-
-
+def reverse(integer_val):
+    integer_val = list(str(integer_val))
+    integer_val = integer_val[::-1]
+    integer_val = "".join(integer_val)
+    integer_val = int(integer_val)
+    return integer_val

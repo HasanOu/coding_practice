@@ -265,5 +265,55 @@ print("[1,2,3,0.5].sort()", my_list_2.sort(), my_list_2, sorted(my_list_2))
 print("my_list.clear()", my_list.clear())
 print("my_list", my_list)
 
+# ========================================== Python dict methods ==============================
 
+print("**************Python dictionary methods**************")
+dict = {"Hasan": 1, "Tannaz": 2, "Arash": 3, "Afshin": 4}
 
+print("dict.copy()", dict.copy())
+print(dict["Hasan"])
+
+for items in dict.items():
+    print(items)
+
+for keys in dict.keys():
+    print(keys)
+
+for values in dict.values():
+    print(values)
+
+print(dict.setdefault("Hasasn", "Hello"), dict)
+print(dict.update({"Hasasn": "Bye", "Hasan": "Good"}), dict)
+
+print("dict.pop('Arash')", dict.pop("Arash"), dict)
+
+list = []
+
+itera = dict.copy().keys()
+for key in itera:
+    list.append(dict.pop(key))
+print("list", list)
+
+reversed_dict = {}
+for (key, value) in dict.items():
+    reversed_dict[value] = key
+print(reversed_dict)
+
+x = ('key1', 'key2', 'key3')
+y = (0, 1, 2)
+print(dict.fromkeys(x, y))
+
+print("dict.clear()", dict.clear())
+
+print("".join(["a", "b", "c"]))
+
+a = ['a', 'b', 'c']
+b = ['d', 'e', 'f']
+c = ['1', '2', '3', '4']
+list_num = [a, b, c]
+
+count = 0
+for value_2 in list_num[count]:
+    list_num = [value_1 + value_2 for value_1 in a for value_2 in b]
+    count += 1
+print(list_num)
