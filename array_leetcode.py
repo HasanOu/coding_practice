@@ -621,3 +621,291 @@ def reverse(integer_val):
     integer_val = "".join(integer_val)
     integer_val = int(integer_val)
     return integer_val
+
+
+def reversed_image(input_matrix):
+    num_rows = 3
+    num_cols = 3
+
+    output = [[0 for i in range(num_rows)] for j in range(num_cols)]
+    print(output)
+
+    for i in range(num_rows):
+        for j in range(num_cols):
+            output[i][j] = input_matrix[2 - j][i]
+
+    return output
+
+
+# input = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+# output = reversed_image(input)
+# print(output)
+
+fruits = ['apple', 'banana', 'cherry']
+
+
+def isPalindrome(s: str):
+    s = [item for item in s.lower() if item.isalnum()]
+    return s == s[::-1]
+
+
+def longestCommonPrefix(strs):
+    len_list = len(strs)
+
+    items_size = [len(item) for item in strs]
+    min_len = min(items_size)
+
+    new_s = ""
+    for j in range(min_len):
+        count = 0
+        for i in range(1, len_list):
+            if strs[i - 1][j] == strs[i][j]:
+                count += 1
+            else:
+                return new_s
+        if count == len_list - 1:
+            new_s += strs[0][j]
+
+
+def longestCommonPrefix_1(strs):
+    prefix = ""
+    if len(strs) == 0:
+        return prefix
+
+    for j in range(len(min(strs))):
+        c = strs[0][j]
+        if all(a[j] == c for a in strs):
+            prefix += c
+        else:
+            break
+    return prefix
+
+
+strs = ["hello", "hell"]
+print(longestCommonPrefix_1(strs))
+
+
+def maxDepth(self, root) -> int:
+    print(root)
+
+    if root is None:
+        return 0
+    else:
+        left_height = self.maxDepth(root.left)
+        right_height = self.maxDepth(root.right)
+        return max(left_height, right_height) + 1
+
+
+def Set_Matrix_Zeroes(matrix):
+    cols = range(len(matrix))
+    rows = range(len(matrix[0]))
+
+    for i in rows:
+        for j in cols:
+            if matrix[i][j] == 0:
+                matrix[i][:] = [0] * len(cols)
+                matrix[:][j] = [0] * len(rows)
+
+    return matrix
+
+
+matrix = [[1, 1, 1], [1, 0, 1], [1, 1, 1]]
+print(Set_Matrix_Zeroes(matrix))
+
+word = "hello"
+
+from collections import Counter
+
+
+def anagrams(word1, word2):
+    return Counter(word1) == Counter(word2)
+
+
+list_strs = []
+
+# def groupAnagrams(strs):
+#     list_strs = []
+#     for word1 in strs:
+#         temp_group = [strs[i]]
+#         for word2 in strs:
+#             if anagrams(strs[i], strs[j]):
+#                 temp_group.append(strs[j])
+#         list_strs.append(temp_group)
+#
+#     return list_strs
+#
+#
+# strs = ["eat","tea","tan","ate","nat","bat"]
+# print(groupAnagrams(strs))
+
+
+animals = ['cat', 'dog', 'dog', 'guinea pig', 'dog']
+
+# 'dog' is removed
+animals.remove('dog')
+
+print(animals)
+
+from collections import defaultdict
+
+
+def coinChange(coins, amount):
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
+
+    for value in coins:
+        dp[value] = 1
+
+    for value in coins:
+        for invested in range(len(coins), amount + 1):
+            dp[invested] = min(dp[invested - value] + 1, dp[invested])
+
+    return dp[amount]
+
+
+print(coinChange([1, 2, 4, 5], 11))
+
+from collections import defaultdict
+
+
+def canFinish(numCourses, prerequisites):
+    courseDict = defaultdict(list)
+
+    for relation in prerequisites:
+        preCourse, nextCourse = relation[0], relation[1]
+        courseDict[preCourse].append(nextCourse)
+
+    print(courseDict)
+    for key in courseDict.keys():
+        if key in courseDict[key]:
+            return False
+
+    return True
+
+
+print(canFinish(3, [[1, 2], [2, 3], [3, 4], [4, 1], [4, 2], [2, 1]]))
+
+
+def productExceptSelf(nums):
+    list_num = []
+    for i in range(len(nums)):
+        prod = 1
+        count = 0
+        for number in nums:
+            if i != count:
+                prod *= number
+            count += 1
+
+        list_num.append(prod)
+
+    return list_num
+
+
+# nums = [1, 2, 3, 4]
+# print(productExceptSelf(nums))
+
+
+def canPartition(nums):
+    print("******")
+    if sum(nums) % 2 == 1:
+        return False
+
+    partition_sum = sum(nums) / 2
+
+    for partition in range(2 ** len(nums)):
+        bin_num = bin(partition)[2:]
+
+        bin_num_list = list(bin_num)
+        num_int = [int(x) for x in bin_num_list]
+        print(num_int)
+
+        total_sum = 0
+        for i in range(len(num_int)):
+            if num_int[i] == 1:
+                total_sum += nums[i]
+
+        if total_sum == partition_sum:
+            return True
+
+    return False
+
+
+# print(canPartition([2, 5, 6, 5, 6]))
+
+from itertools import product
+
+
+def topKFrequent(nums):
+    from collections import Counter
+
+    counter = Counter(nums)
+
+    sorted_tuples = sorted(counter.items(), key=lambda item: item[1])
+    sorted_dict = {k: v for k, v in sorted_tuples}
+
+    list_ = []
+    for key, value in sorted_dict.items():
+        list_.append(key)
+
+    return list_[-k:]
+
+
+# Python3 Program to print BFS traversal
+# from a given source vertex. BFS(int s)
+# traverses vertices reachable from s.
+
+# BFS algorithm
+def bfs(graph, s):
+    visited = [False] * (max(graph) + 1)
+
+    # Create a queue for BFS
+    queue = []
+
+    # Mark the source node as
+    # visited and enqueue it
+    queue.append(s)
+    visited[s] = True
+    path = []
+
+    while queue:
+
+        # Dequeue a vertex from
+        # queue and print it
+        node = queue.pop(0)
+        path.append(node)
+
+        # Get all adjacent vertices of the
+        # dequeued vertex s. If a adjacent
+        # has not been visited, then mark it
+        # visited and enqueue it
+        for neighbor in graph[node]:
+            if visited[neighbor] == False:
+                queue.append(neighbor)
+                visited[neighbor] = True
+
+    return path
+
+
+def bfs(graph, s):
+    visited = [False] * len(graph)
+
+    queue = []
+    path = []
+
+    queue.append(s)
+    visited[s] = True
+    path.append(s)
+
+    while queue:
+        node = queue.pop(0)
+        path.append(node)
+
+        for neighbor in graph[node]:
+            if visited[neighbor] == False:
+                visited[neighbor] = True
+                queue.append(neighbor)
+
+
+graph = {0: [1, 2], 1: [2], 2: [3], 3: [1, 2]}
+print("Following is Breadth First Traversal: ")
+print(bfs(graph, 0))
