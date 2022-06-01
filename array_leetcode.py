@@ -909,3 +909,10 @@ def bfs(graph, s):
 graph = {0: [1, 2], 1: [2], 2: [3], 3: [1, 2]}
 print("Following is Breadth First Traversal: ")
 print(bfs(graph, 0))
+
+# array
+# Given two strings ransomNote and magazine, return true if ransomNote can be constructed from magazine and false otherwise.
+# Each letter in magazine can only be used once in ransomNote.
+
+
+
