@@ -279,7 +279,7 @@ Output: -1
 """
 
 
-def search_in_rotated_rorted_array(nums, target):
+def search_in_rotated_sorted_array(nums, target):
     # Initilize two pointers
     begin = 0
     end = len(nums) - 1
@@ -301,7 +301,7 @@ def search_in_rotated_rorted_array(nums, target):
 
 
 arr = [7, 8, 0, 1, 2, 3, 4]
-output = search_in_rotated_rorted_array(arr, 7)
+output = search_in_rotated_sorted_array(arr, 7)
 print(output)
 
 """ Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the 

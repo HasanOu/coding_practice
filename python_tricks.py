@@ -154,7 +154,7 @@ for d in my_list:
 print(my_dict)
 
 # Write a Python program to create a dictionary from a string.
-my_string = 'w3resource'
+my_string = '"w3resource" "hello" '
 my_dict = Counter(my_string)
 print(my_dict)
 
@@ -223,6 +223,7 @@ print(new_list)
 
 #  Write a Python program to get the cumulative sum of the elements of a given list
 my_list = [1, 2, 3, 4]
+
 cum_list = []
 for i in range(1, len(my_list)+1):
     cum_list.append(sum(my_list[:i]))
