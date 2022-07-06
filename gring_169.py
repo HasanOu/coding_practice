@@ -324,3 +324,21 @@ def coinChange(coins, amount):
             dp[x] = min(dp[x], dp[x-coin]+1)
 
     return dp[amount] if dp[amount] != float('inf') else -1
+
+
+def alternatingCharacters(s):
+    # Write your code here
+    stack = []
+    string = list(s)
+    count = 0
+    stack.append(string[0])
+    for letter in string[1:]:
+        stack.append(letter)
+        if stack[-1] == stack[-2]:
+            stack.pop()
+            print(stack)
+
+    return len(string) - len(stack)
+
+s="ABABABAB"
+print(alternatingCharacters(s))
