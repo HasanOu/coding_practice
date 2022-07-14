@@ -165,8 +165,8 @@ arr2d = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 print(arr2d[:2])  # [[1 2 3]
 # [4 5 6]]
 print(arr2d[:, 2])  # [3 6 9]
-print(arr2d[1, [2, 3]])  # [5,6]
-print(arr2d[:2, 1:])  # [[2 3]
+#print(arr2d[1, [2, 3]])  # [5,6]
+#print(arr2d[:2, 1:])  # [[2 3]
 # [5 6]]
 
 
@@ -568,18 +568,20 @@ print(m, c)
 # ===================================== Random Number Generation =======================================================
 print(np.random.permutation(10))  # Return a random permutation of a sequence, or return a permuted range
 print(np.random.normal(size=5))  # Draw samples from a normal (Gaussian) distribution
-print(np.random.normal(size=(4, 4)))
+print(np.random.normal(loc=0, scale=1, size=(4, 10)))
 arr = [1, 2, 4, 5, 3, 2, 1, 2, 3]
 np.random.shuffle(arr)  # Randomly permute a sequence in place
 print(arr)
 
-print(np.random.rand())  # Draw samples from a uniform distribution
-print(np.random.randint(4, 10))  # Draw random integers from a given low-to-high range
-print(
-    np.random.randn())  # Draw samples from a normal distribution with mean 0 and standard deviation 1 (MATLAB-like interface)
-sum(np.random.binomial(9, 0.1, 20000) == 0) / 20000
-print(np.random.normal(1, 2, 10))  # Draw samples from a normal (Gaussian) distribution
-print(np.random.uniform(2, 4, (5, 6)))  # Draw samples from a normal (Gaussian) distribution
+print(np.random.choice([1, 4, 5, 6, 7], 50, p=[0.1, 0.2, 0.1, 0.4, 0.2])) # Generate a non-uniform random sample from np.arange(5) of size 3.
+
+print(np.random.randint(4, 10, (4, 5)))
+print(np.random.random_integers(0, 10, size=(4, 5)))  # Return random integers of type np.int_ from the “discrete uniform” distribution in the closed interval [low, high].
+print(np.random.uniform(2, 4, (4, 10)))  # Draw samples from a normal (Gaussian) distribution
+print(np.random.binomial(9, 0.1, size=(4, 6)))
+
+new_arr = np.array([1, 2, 4, 5]).cumsum()
+print(np.random.exponential(1, size=(5,10)))   # 1/\beta = lambda beta is given here
 
 # Simulating a Random Walk
 nsteps = 1000
@@ -598,11 +600,6 @@ print(walk.max(1))
 print(walk.min(1))
 
 # random sampling in Numpy
-print(np.random.rand(3, 2))  # random samples from a uniform distribution over [0, 1)
-print(np.random.randn(2, 3))  # Return a sample (or samples) from the “standard normal” distribution.
-print(np.random.randint(2, 5, (3, 4)))  # Return random integers from low (inclusive) to high (exclusive).
-print(np.random.random_integers(0, 10, size=(4, 5)))  # Return random integers of type np.int_ from the “discrete uniform” distribution in the closed interval [low, high].
-print(3*np.random.random_sample(size=(2, 3))-1)  # Results are from the “continuous uniform” distribution over the stated interval.
 print(np.random.choice([1, 4, 5, 6, 7], 50, p=[0.1, 0.2, 0.1, 0.4, 0.2])) # Generate a non-uniform random sample from np.arange(5) of size 3.
 arr = [1, 4, 5, 6, 2, 3]
 np.random.shuffle(arr)  # Modify a sequence in-place by shuffling its contents.
@@ -610,14 +607,15 @@ print(arr)
 
 print(np.random.permutation([1, 4, 9, 12, 15])) # Randomly permute a sequence, or return a permuted range.
 print(np.random.beta(1, 1, size=(2,3)))   # draws a sample from beta distribution
-print(np.random.binomial(10, 0.1, size=(5,10)))
+print(np.random.binomial(10, 0.1, size=(5, 10)))
 print(np.random.exponential(1, size=(5,10)))   # 1/\beta = lambda beta is given here
 print((np.random.geometric(p=0.0001, size=10000) ==1).sum())   # how many trials succeeded after a single run
 
 ngood, nbad, nsamp = 100, 2, 10
 s = np.random.hypergeometric(ngood, nbad, nsamp, 1000)
 
-
 # Suppose you have an urn with 15 white and 15 black marbles. If you pull 15 marbles at random, how likely is it that 12 or more of them are one color?
 s = np.random.hypergeometric(15, 15, 15, 100000)
-sum(s>=12)/100000. + sum(s<=3)/100000
+sum(s >= 12)/100000. + sum(s <= 3)/100000
+
+
