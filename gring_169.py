@@ -269,7 +269,6 @@ def moveZeroes(nums):
 nums = [0, 1, 0, 3, 12]
 print(moveZeroes(nums))
 
-
 import math
 
 
@@ -320,8 +319,8 @@ def coinChange(coins, amount):
     dp[0] = 0
 
     for coin in coins:
-        for x in range(coin, amount+1):
-            dp[x] = min(dp[x], dp[x-coin]+1)
+        for x in range(coin, amount + 1):
+            dp[x] = min(dp[x], dp[x - coin] + 1)
 
     return dp[amount] if dp[amount] != float('inf') else -1
 
@@ -340,5 +339,33 @@ def alternatingCharacters(s):
 
     return len(string) - len(stack)
 
-s="ABABABAB"
+
+s = "ABABABAB"
 print(alternatingCharacters(s))
+
+# ----------------------------------------------------------------------------------------------------------------------
+import collections
+
+0
+def longestConsecutive(nums):
+    # https: // leetcode.com / problems / longest - consecutive - sequence /
+    nums = sorted(nums)
+
+    count = 0
+    ans = 0
+    for num_index in range(len(nums) - 1):
+        if nums[num_index] == nums[num_index + 1]:
+            count = +1
+        else:
+            ans = max(ans, count)
+            count = 0
+
+    return ans
+
+
+def soduko_
+
+
+nums = [1, 2, 4, 3, 5, 6, 7, 9, 12]
+dict_nums = longestConsecutive(nums)
+print(dict_nums)

@@ -93,7 +93,7 @@ print(my_dict)
 
 #  Write a Python program to map two lists into a dictionary.
 keys = ['red', 'green', 'blue']
-values = ['#FF0000','#008000', '#0000FF']
+values = ['#FF0000', '#008000', '#0000FF']
 my_dict = dict(zip(keys, values))
 print(my_dict)
 
