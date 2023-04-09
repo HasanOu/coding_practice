@@ -227,5 +227,4 @@ my_list = [1, 2, 3, 4]
 cum_list = []
 for i in range(1, len(my_list)+1):
     cum_list.append(sum(my_list[:i]))
-
 print(cum_list)
