@@ -1,147 +1,352 @@
-# What is object-oriented programming?
-# Object-oriented programming (OOP) is a computer programming model that organizes software design around data, or
-# objects, rather than functions and logic.
-# An object can be defined as a data field that has unique attributes and behavior.
+"""This is based on this
+# https://www.youtube.com/watch?v=ZDa-Z5JzLYM&list=PL-osiE80TeTsqhIuOqKhwlXsIBIdSeYtc&ab_channel=CoreySchafer
+"""
 
-# Classes are user-defined data types that act as the blueprint for individual objects, attributes and methods.
-# Objects are instances of a class created with specifically defined data. Objects can correspond to real-world objects
-# or an abstract entity.
-# Methods are functions that are defined inside a class that describe the behaviors of an object. Each method contained.
-# Attributes are defined in the class template and represent the state of an object.
+# =============================== create a class =======================================================================
+# A class is a blueprint to create instances/objects.
 
-# Encapsulation. This principle states that all important information is contained inside an object and only select
-# information is exposed. The implementation and state of each object are privately held inside a defined class. Other
-# objects do not have access to this class or the authority to make changes. They are only able to call a list of public
-# functions or methods. This characteristic of data hiding provides greater program security and avoids unintended data
-# corruption.
-
-# Abstraction. Objects only reveal internal mechanisms that are relevant for the use of other objects, hiding any
-# unnecessary implementation code. The derived class can have its functionality extended. This concept can help
-# developers more easily make additional changes or additions over time.
-
-# Inheritance. Classes can reuse code from other classes. Relationships and subclasses between objects can be assigned,
-# enabling developers to reuse common logic while still maintaining a unique hierarchy. This property of OOP forces a
-# more thorough data analysis, reduces development time and ensures a higher level of accuracy.
-
-# Polymorphism. Objects are designed to share behaviors and they can take on more than one form. The program will
-# determine which meaning or usage is necessary for each execution of that object from a parent class,
-# reducing the need to duplicate code. A child class is then created, which extends the functionality of the parent
-# class. Polymorphism allows different types of objects to pass through the same interface.
-
-# position, name, age, level, salary
-
-se1_list = ["Hasan", 23, "Senior", "500"]
-se2_list = ["Tannaz", 25, "Senior", "400"]
-
-
-# inherits, extends, and override
 class Employee:
-    def __init__(self, name, age, salary):
-        self.name = name
-        self.age = age
-        self.salary = salary
-        self._promotion = None # protected
-        self.__fire = None # private
+    pass
 
-    def work(self):
-        return f"{self.name} is an Employee with age {self.age} ans salary {self.salary} is working"
+emp_1 = Employee()   # we call this an instance of a class. Each instance is an object.
+emp_2 = Employee()
 
-    # getters and setters
-    def get_promotion(self):
-        return self._promotion
+print("print emp_1 and emp_2 instance")
+print(emp_1)
+print(emp_2)
+print(emp_1 is emp_2)  # These are two different objects/instances from Empployee class
 
-    def set_promotion(self, value):
-        if value <= 10000:
-            value = 10000
-        else:
-            value = 20000
-        self._promotion = value
+emp_1.first = 'Hasan'
+emp_1.last = 'MN'
 
+emp_2.first = 'Tannaz'
+emp_2.last = 'FA'
 
-class Designer(Employee):
-    def __init__(self, name, age, level, salary):
-        super().__init__(name, age, salary)
-        self.level = level
+# =================================================== create init method ===============================================
 
-    def work(self):
-        return f"{self.name} is designer with age {self.age} ans salary {self.salary} and level {self.level} is working"
+# init method is used to get attributes from an instance of a class
+class Employee:
+    def __init__(self, first, last, pay):
+        # these are instance variables
+        self.first = first
+        self.last = last
+        self.pay = pay
+        self.email = self.first + self.last + '@company.com'
 
+emp_1 = Employee('Hasan', 'MN', 10000)
+emp_2 = Employee('Tannaz', 'FA', 5000)
 
-class SoftwareEngineer(Employee):
-    raise_amount = 1.04
+print("print emp_1 and emp_2 first name using __init__ method")
+print(emp_1.first)
+print(emp_2.first)
 
-    def __init__(self, name, age, salary):
-        super().__init__(name, age, salary)
+# ================================= create a method inside a class =====================================================
+# A method is simply a function within a class
 
-    def employee_info(self):
-        return f"This programmer: name={self.name}, age={self.age}, salary={self.salary}"
+class Employee:
+    def __init__(self, first, last, pay):
+        self.first = first
+        self.last = last
+        self.pay = pay
+        self.email = self.first + self.last + '@company.com'
 
-    def empl_language(self, language):
-        return f"{language}"
+    def full_name(self):
+        return f"{self.first}, {self.last}"
 
-    # deunder method agic methods are not meant to be invoked directly by you, but the invocation happens internally
-    # from the class on a certain action.
-    def __str__(self):
-        information = f"This programmer: name={self.name}, age={self.age}, salary={self.salary}"
-        return information
+emp_1 = Employee('Hasan', 'MN', 10000)
+emp_2 = Employee('Tannaz', 'FA', 5000)
 
-    def __eq__(self, other):
-        return self.name == other.name and self.age == other.age
+print("print the output of full_name method")
+print(Employee.full_name(emp_1))  # we can write it this way
+print(emp_1.full_name())  # or we can write it this way (this is preferred way to do it)
 
-    def __add__(self, other):
-        return self.age - other.age
+# ================================== Instance variable versus Class variables ==========================================
+# Class variables are shared across the class regardless of each instance
+class Employee:
+    raise_amount = 1.1       # This is a class variable
+    def __init__(self, first, last, pay):
+        self.first = first  # instance variable
+        self.last = last
+        self.pay = pay
+        self.email = self.first + self.last + '@company.com'
 
+    def apply_raise(self):
+        # Both of these are correct. However, the second one is more flexible because we can change it for each instance
+        # self.pay = int(self.pay*Employee.raise_amount)
+        self.pay = int(self.pay*self.raise_amount)
+
+emp_1 = Employee('Hasan', 'MN', 10000)
+emp_2 = Employee('Tannaz', 'FA', 5000)
+
+# For class variable, it initially checks if the instance has that attribute.
+# Next, it will check if the class has that attribute
+
+print("print __dict__ emp_1 instance and __dict__ for Employee class")
+print(emp_1.__dict__)
+print(Employee.__dict__)
+
+# This changes class variables for all instances
+print("print class variable and instance variable")
+Employee.raise_amount = 1.5   # class attribute
+print(Employee.raise_amount)
+print(emp_1.raise_amount)
+print(emp_2.raise_amount)
+
+# This only changes it for emp_1.
+print("print class variable and instance variable")
+emp_1.raise_amount = 1.3
+print(Employee.raise_amount)
+print(emp_1.raise_amount)
+print(emp_2.raise_amount)
+
+# We use class variable in a situation where this does not depend on each instance
+class Employee:
+    raise_amount = 1.1
+    num_of_emps = 0
+    def __init__(self, first, last, pay):
+        self.first = first
+        self.last = last
+        self.pay = pay
+        self.email = self.first + self.last + '@company.com'
+
+        # a class variable
+        Employee.num_of_emps +=1
+
+    def apply_raise(self):
+        # self.pay = int(self.pay*Employee.raise_amount)
+        self.pay = int(self.pay*self.raise_amount)
+
+    def full_name(self):
+        return f"{self.first}, {self.last}"
+
+emp_1 = Employee('Hasan', 'MN', 10000)
+emp_2 = Employee('Tannaz', 'FA', 5000)
+
+print("print a class variable")
+print(Employee.num_of_emps)
+
+# ================================== Regular/instance methods, class methods, and static method ========================
+
+# Regular/instance method: automatically takes instance as the argument (we use self)
+
+# Class method:
+# - automatically takes class as the argument (cls)
+# - modifies the behaviour of the class using a decorator
+
+# static method: static method does not pass anything autmatically
+
+class Employee:
+    raise_amount = 1.1
+    num_of_emps = 0
+
+    def __init__(self, first, last, pay):
+        self.first = first
+        self.last = last
+        self.pay = pay
+        self.email = self.first + self.last + '@company.com'
+
+        # a class variable
+        Employee.num_of_emps +=1
+
+    def apply_raise(self):        # this is a regular/instance method
+        # self.pay = int(self.pay*Employee.raise_amount)
+        self.pay = int(self.pay*self.raise_amount)
+
+    def full_name(self):
+        return f"{self.first}, {self.last}"
+
+    # Here we are working with a class instead of instance. It takes class and modifies
+    @classmethod    # this is a class method
+    def set_raise_amount(cls, amount):
+        cls.raise_amount = amount
+
+    @classmethod
+    def from_string(cls, emp_str):  # this is a class method
+        first, last, pay = emp_str.split("-")
+        return cls(first, last, pay)
+
+    # static method does not take self or cls. It is simply a function within the class
     @staticmethod
-    def entry_salary(age):
-        if age <= 25:
-            return 200000
+    def is_workday(day):
+        if day.weekday == 5 or day.weekday == 6:
+            return False
         else:
-            return 500000
+            return True
 
+emp_1 = Employee('Hasan', 'MN', 10000)
+emp_2 = Employee('Tannaz', 'FA', 5000)
 
-# instance
-se1 = SoftwareEngineer("Hasan", 35, 500000)
-print(SoftwareEngineer.raise_amount)
-print(se1.raise_amount)
-print(se1.employee_info())
-print(se1.empl_language('python'))
+emp_str_1 = 'John-Doe-70000'
+emp_str_2 = 'Steve-Smith-30000'
+emp_str_3 = 'Jane-Doe-90000'
 
-se2 = Designer("Hasan", 40, "Senior", 500000)
-se3 = Designer("Hasan", 35, "Senior", 500000)
-print(se1 == se2 == se3)
+print("print class method")
+new_emp_1 = Employee.from_string(emp_str_1)
+new_emp_2 = Employee.from_string(emp_str_2)
+new_emp_3 = Employee.from_string(emp_str_3)
+print(new_emp_1.first)
 
-# override "+" deunder method
-print(se1 + se2)
-print(se1.entry_salary(35))
+print("print static method")
+import datetime
+my_date = datetime.date(2017, 1, 5)
+print(new_emp_1.is_workday(my_date))
 
-print(se1.work())
+# ========================= Inherritance ==========================
+# Inheritance allows us to inherent attributes and methods from parent class
+class Employee:
+    raise_amount = 1.1
+    num_of_emps = 0
 
+    def __init__(self, first, last, pay):
+        self.first = first
+        self.last = last
+        self.pay = pay
+        self.email = self.first + self.last + '@company.com'
 
+        # a class variable
+        Employee.num_of_emps +=1
 
-# recap
-# create class (blueprint)
-# create instance (object)
-# class vs instance
-# instance attribute: defined in __init__(self)
-# class attribute
-# ----------
-# instance method(self)
-# can take arguments and return values
-# special "deunder" (__add__(self) __str__(self), __eq__(self))
-# Inheritance: ChildClass (BaseClass)
-# inherit, extend, overtide
-# super().__init__()
-# polymorphism
-# The word polymorphism means having many forms. In programming, polymorphism means the same function
-# name (but different signatures) being used for different types.
-# -----------
-# Encapsulation
-# private attribute
-# private function
-# getter and setter
-# -----------
-# Abstraction
-# Abstraction in python is that feature in OOP concept wherein the user is kept unaware of the basic implementation of
-# a function property. The user is only able to view basic functionalities whereas the interbal detauls are hidden.
-# ----------
-# Properties
+    def apply_raise(self):
+        # self.pay = int(self.pay*Employee.raise_amount)
+        self.pay = int(self.pay*self.raise_amount)
+
+    def full_name(self):
+        return f"{self.first}, {self.last}"
+
+# inherent Employee attributes and methods from Employee class
+class Developer(Employee):
+    raise_amount = 1.5
+
+    def __init__(self, first, last, pay, prog_lang):
+        super().__init__(first, last, pay) # it takes first, last, and pay from the parent class
+        # Employee.__init__(self, first, last, pay)
+        self.prog_lang = prog_lang
+
+class Manager(Employee):
+    def __init__(self, first, last, pay, employee_list = None):
+        super().__init__(first, last, pay)
+        # Employee.__init__(self, first, last, pay)
+        if employee_list is None:
+            self.employee_list = []
+        else:
+            self.employee_list = employee_list
+
+    def add_emp(self, emp):
+        if emp not in self.employee_list:
+            self.employee_list.append(emp)
+
+    def remove_emp(self, emp):
+        if emp in self.employee_list:
+            self.employee_list.remove(emp)
+
+    def full_name(self):
+        return f"{self.first} + {self.last}"
+
+dev_1 = Developer('Tannaz', 'FA', 10000, 'Java')
+dev_2 = Developer('Hasan', 'MN', 50000, 'Python')
+
+print(dev_1.first)
+
+# will go into chain to find this information (dev_1.email does not exist in the dev class. It exists in the Employee)
+print(dev_1.email)
+
+print(help(Developer))  # provides a lot of good info
+print(dev_1.prog_lang)
+
+man_1 = Manager("Sue", "Smith", 90000, [dev_1])
+man_1.add_emp(dev_2)
+man_1.remove_emp(dev_1)
+
+# Is instance tells if a object/instance is from a class
+print(isinstance(man_1, Manager)) # '---> True'
+print(isinstance(man_1, Employee))  # '---> True'
+print(isinstance(man_1, Developer)) # '---> False'
+
+# Is subclass tells if a class is a subclass of another class
+print(issubclass(Manager, Employee)) # '---> True'
+print(issubclass(Developer, Employee))  #'---> True'
+print(issubclass(Manager, Developer)) # '---> False'
+
+# ======================================= Special (Magic/Dunder) Methods ===============================================
+class Employee:
+    def __init__(self, first, last, pay):
+        # these are instance variables
+        self.first = first
+        self.last = last
+        self.pay = pay
+        self.email = self.first + self.last + '@company.com'
+
+    # unambiguous representation of the object used for the developer
+    def __repr__(self):
+        return f"Employee({self.first},{self.last},{self.pay})"
+
+    # readable representation of the object used for the end user
+    def __str__(self):
+        return f"{self.first},{self.last}"
+
+    # This will be used for + operator
+    def __add__(self,other):
+        return self.pay + other.pay
+
+emp_1 = Employee('Hasan', 'MN', 10000)
+emp_2 = Employee('Tannaz', 'FA', 5000)
+
+# If __str__ is not deactivate, it only uses __str__ (not __repr__)
+print(emp_1)
+
+print("print repr and str")
+print(repr(emp_1))
+print(str(emp_1))
+print(emp_1.__repr__())
+print(emp_1.__str__())
+
+print(emp_1+emp_2)
+
+# ======================== Property Decorators: Getters, Setters, Deleters =============================================
+class Employee:
+    def __init__(self, first, last, pay):
+        # these are instance variables
+        self.first = first
+        self.last = last
+        self.pay = pay
+        self.email = self.first + self.last + '@company.com'
+
+    @property
+    def email_address(self):
+        return f"{self.first}{self.last}" + "email.com"
+
+    @property
+    def full_name(self):
+        return f"{self.first} + {self.last}"
+
+    @full_name.setter
+    def full_name(self, name):
+        first, last = name.split(' ')
+        self.first = first
+        self.last = last
+
+    @full_name.deleter
+    def full_name(self):
+        self.first = None
+        self.last = None
+
+emp_1 = Employee('Hasan', 'MN', 10000)
+emp_2 = Employee('Tannaz', 'FA', 5000)
+emp_1.first = 'Jim'
+
+# This makes it run like an attribute instead of a method
+# print(emp_1.email_address()) # you need to remove @property
+
+print ("print property for email_address")
+print(emp_1.email_address)
+print(emp_1.first, emp_1.last)
+print(emp_1.full_name)
+
+print ("print setter for email_address")
+emp_1.full_name = "Ebisa Wolega"
+print(emp_1.first)
+print(emp_1.last)
+print(emp_1.email_address)
+
+#
+del emp_1.full_name
