@@ -3,7 +3,6 @@ import numpy as np
 
 from collections import Counter
 
-
 def twoSum(nums, target):
     # https://leetcode.com/problems/two-sum/
     hashmap = dict()
@@ -22,11 +21,9 @@ def twoSum(nums, target):
 
     return list_twosum_
 
-
 arr = [1, 5, 4, 4, 7, 9]
 output = twoSum(arr, 10)
 print(output)
-
 
 def valid_parentheses(s):
     # https://leetcode.com/problems/two-sum/

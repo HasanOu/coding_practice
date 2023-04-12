@@ -10,7 +10,6 @@ What Numpy provides:
 - Tools for reading / writing array data to disk and working with memory-mapped files
 - Linear algebra, random number generation, and Fourier transform capabilities
 - Tools for integrating code written in C, C++, and Fortran
-
 """
 
 import numpy as np

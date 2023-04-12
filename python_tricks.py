@@ -220,7 +220,6 @@ print(new_list)
 
 #  Write a Python program to print the numbers of a specified list after removing even numbers from it
 
-
 #  Write a Python program to get the cumulative sum of the elements of a given list
 my_list = [1, 2, 3, 4]
 
@@ -228,3 +227,10 @@ cum_list = []
 for i in range(1, len(my_list)+1):
     cum_list.append(sum(my_list[:i]))
 print(cum_list)
+
+# Given a list of integers nums and an integer k, write a Python function to find the kth largest element in the list.
+my_list = [1,4,3,2,5]
+k=3
+kth_larger_elelemt = sorted(my_list)[k-1]
+
+# =============================================================  Python tricks on tuple ================================
