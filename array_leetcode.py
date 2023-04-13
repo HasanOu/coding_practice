@@ -914,5 +914,11 @@ print(bfs(graph, 0))
 # Given two strings ransomNote and magazine, return true if ransomNote can be constructed from magazine and false otherwise.
 # Each letter in magazine can only be used once in ransomNote.
 
+import numpy as np
 
+arr1 = np.array([[1, 2], [3, 4]])
+arr2 = np.array([[5, 6], [7, 8]])
+
+arr3 = np.dot(arr1, arr2)
+print(arr3[0][0])
 

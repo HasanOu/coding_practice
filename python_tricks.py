@@ -1,3 +1,4 @@
+import copy
 from collections import Counter
 from collections import defaultdict
 import itertools
@@ -234,3 +235,11 @@ k=3
 kth_larger_elelemt = sorted(my_list)[k-1]
 
 # =============================================================  Python tricks on tuple ================================
+
+a= [1,[2,3],3]
+b = copy.copy(a)
+b[1][1] = 5
+print(a)
+print(b)
+
+print(__name__)

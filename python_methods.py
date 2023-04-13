@@ -317,3 +317,4 @@ for value_2 in list_num[count]:
     list_num = [value_1 + value_2 for value_1 in a for value_2 in b]
     count += 1
 print(list_num)
+
