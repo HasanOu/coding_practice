@@ -1,5 +1,8 @@
 import collections
 import numpy as np
+from collections import Counter
+from collections import defaultdict
+
 
 """Given an array of integers nums and an integer target, return indices of the
 two numbers such that they add up to target.
@@ -13,9 +16,6 @@ Input: nums = [2,7,11,15], target = 9
 Output: [0,1]
 Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 """
-import collections
-
-import numpy as np
 
 def twoSum(nums, target):
     # create a dictionary to store each number and its index
@@ -41,7 +41,6 @@ arr = [1, 5, 4, 4, 7, 9]
 output = twoSum(arr, 10)
 print(output)
 print("***********")
-
 
 """Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
 
@@ -174,7 +173,6 @@ print("*******")
 
 Given a string s, return true if it is a palindrome, or false otherwise."""
 
-
 def Validpalindrome(my_string):
     my_string = my_string.replace(" ", "").lower()
 
@@ -182,7 +180,6 @@ def Validpalindrome(my_string):
         return True
     else:
         return False
-
 
 """
 Given the root of a binary tree, invert the tree, and return its root.
@@ -211,12 +208,500 @@ def invertTree(root):
     # Return the inverted tree
     return root
 
+"""
+An image is represented by an m x n integer grid image where image[i][j] represents the pixel value of the image.
+
+You are also given three integers sr, sc, and color. You should perform a flood fill on the image starting from the pixel image[sr][sc].
+
+To perform a flood fill, consider the starting pixel, plus any pixels connected 4-directionally to the starting pixel of the same color as the starting pixel, plus any pixels connected 4-directionally to those pixels (also with the same color), and so on. Replace the color of all of the aforementioned pixels with color.
+
+Return the modified image after performing the flood fill.
+"""
+
+def floodFill(image, sr, sc, newColor):
+    # Get the original color of the starting pixel
+    oldColor = image[sr][sc]
+
+    # Check if the starting pixel has already been filled with the new color
+    if oldColor == newColor:
+        return image
+
+    # Define a helper function to perform the flood fill
+    def dfs(image, r, c):
+        # Check if the pixel is out of bounds or has the wrong color
+        num_rows = len(image)
+        num_cols = len(image[0])
+        if r < 0 or r >= num_rows or c < 0 or c >= num_cols or image[r][c] != oldColor:
+            return
+
+        # Fill the pixel with the new color
+        image[r][c] = newColor
+
+        # Recursively fill the adjacent pixels
+        dfs(image, r - 1, c)
+        dfs(image, r + 1, c)
+        dfs(image, r, c - 1)
+        dfs(image, r, c + 1)
+
+    # Call the helper function on the starting pixel
+    dfs(image, sr, sc)
+
+    # Return the modified image
+    return image
+
+"""
+Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+"abcabc" and "cabcab"
+
+"""
+
+def Validanagrams(word1, word2):
+    return Counter(word1) == Counter(word2)
+
+import copy
+
+def Validanagram(word1, word2):
+    word1 = list(word1)
+    word2 = list(word2)
+
+    my_iter = copy.deepcopy(word1)
+
+    if len(word1) != len(word2):
+        return False
+    else:
+        for char in my_iter:
+            if char in word2:
+                word1.remove(char)
+                word2.remove(char)
+            else:
+                return False
+
+    if len(word1) == 0 and len(word2) == 0:
+        return True
+    else:
+        return False
+
+word1 = "aabc"
+word2= "caab"
+print(Validanagram(word1, word2))
+print("**************")
+
+def isBadVersion(version):
+    # This function is given in the problem statement
+    # and returns whether a version is bad
+    pass
+
+"""You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad.
+
+Suppose you have n versions [1, 2, ..., n] and you want to find out the first bad one, which causes all the following ones to be bad.
+
+You are given an API bool isBadVersion(version) which returns whether version is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API.
+"""
+
+def firstBadVersion(n):
+    # Initialize the search range
+    left = 1
+    right = n
+
+    # Perform binary search
+    while left < right:
+        # Calculate the mid-point
+        mid = left + (right - left) // 2
+
+        # Check if the mid-point is a bad version
+        if isBadVersion(mid):
+            right = mid
+        else:
+            left = mid + 1
+
+    # Return the first bad version
+    return left
+
+"""
+You are climbing a staircase. It takes n steps to reach the top.
+
+Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+"""
+
+
+def climbStairs(n):
+    # Initialize the memoization table
+    dp = [0] * (n + 1)
+
+    # Base cases
+    dp[0] = 1
+    dp[1] = 1
+
+    # Fill in the memoization table using dynamic programming
+    for i in range(2, n + 1):
+        dp[i] = dp[i - 1] + dp[i - 2]
+
+    # Return the number of distinct ways to climb the staircase
+    return dp[n]
+
+"""
+Given a string s which consists of lowercase or uppercase letters, return the length of the longest palindrome that can be built with those letters.
+
+Letters are case sensitive, for example, "Aa" is not considered a palindrome here.
+
+Input: s = "abccccdd"
+Output: 7
+Explanation: One longest palindrome that can be built is "dccaccd", whose length is 7.
+"""
+
+def Langestpalindrome(my_string):
+    dict = Counter(my_string)
+
+    max_length = 0
+    mid_val = 0
+    for (key, value) in dict.items():
+        if value % 2 == 0:
+            max_length += value
+        else:
+            max_length += value -1
+            mid_val = 1
+
+    return max_length + mid_val
+
+my_string = "dccaaaccd"
+print(Langestpalindrome(my_string))
+print("*******")
+
+"""Given an array nums of size n, return the majority element.
+
+The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
+
+nums = [2,2,1,1,1,2,2]
+"""
+
+def MajorityElement(nums):
+    dict = defaultdict(int)
+
+    for num in nums:
+        dict[num]+=1
+
+    return max(dict.keys())
+
+print(MajorityElement([2,2,1,1,1,2,2]))
+print("***********")
+
+"""Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct."""
+
+def ContainsDuplicate(nums):
+    new_list = []
+    for num in nums:
+        new_list.append(num)
+        if num in new_list:
+            return True
+
+    return False
+
+
+"""Given an array of meeting time intervals intervals where intervals[i] = [start_i, end_i], determine if a person could attend all meetings."""
+
+def MeetingRoom(intervals):
+    sorted_list = sorted(intervals, key=lambda x: x[0])
+    pair_list = list(zip(intervals, sorted_list[1:]))
+
+    for (first,second) in pair_list:
+        if first[1] > second[0]:
+            return False
+
+    return True
+
+intervals = [[0,5],[5,10],[10,15]]
+print(MeetingRoom(intervals))
+print("*********")
+
+"""
+Given two strings s and t, return true if they are equal when both are typed into empty text editors. '#' means a backspace character.
+
+Note that after backspacing an empty text, the text will continue empty.
+
+Input: s = "ab#c", t = "ad#c"
+Output: true
+Explanation: Both s and t become "ac".
+"""
+
+def Backspace_String_Compare(s, t):
+    new_s = []
+    for item in s:
+        new_s.append(item)
+        if item == "#":
+            new_s = new_s[:-2]
+
+    new_t = []
+    for item in t:
+        new_t.append(item)
+        if item == "#":
+            new_t = new_t[:-2]
+
+    if new_s == new_t:
+         return True
+    else:
+         return False
+
+s= "ab##"
+t = "c#d#"
+print(Backspace_String_Compare(s,t))
+print("*********")
+
+
+# Alternative solution
+def backspaceCompare(s, t):
+    # Define a function to simulate backspacing in a string
+    def backspace(s):
+        stack = []
+        for char in s:
+            if char == '#':
+                if stack:
+                    stack.pop()
+            else:
+                stack.append(char)
+        return stack
+
+    # Use the backspace function to compare the modified strings
+    return backspace(s) == backspace(t)
+
+"""
+Write a function to find the longest common prefix string amongst an array of strings.
+
+If there is no common prefix, return an empty string "".
+"""
+
+# 9-45  10
+def longest_common_prefix(strs):
+    min_size = min(list(map(len, strs)))
+    min_size = min([len(s) for s in strs])
+    count = 0
+    total_count = 0
+    for char in range(min_size):
+        for index in range(len(strs)-1):
+            if strs[index][char] == strs[index+1][char]:
+                count = max(1, count)
+            else:
+                count = 0
+        total_count += count
+    return strs[0][:total_count]
+
+strs = ["flower","flow","flight"]
+print(longest_common_prefix(strs))
+print("*******")
+
+# 10-10:15
+"""
+Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.
+
+You must implement a solution with a linear runtime complexity and use only constant extra space.
+"""
+def singleNumber(nums):
+    my_dict=defaultdict(int)
+
+    for num in nums:
+        my_dict[num]+=1
+
+    for (key, value) in my_dict.items():
+        if value % 2 == 1:
+            return key
+
+nums = [4,1,2,1,2]
+print(singleNumber(nums))
+print("********")
+
+# 10:15-10:30
+"""Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+Note that you must do this in-place without making a copy of the array."""
+
+def move_zeros(nums):
+    for num in nums:
+        if num == 0:
+            nums.append(0)
+            nums.remove(0)
+    return nums
+
+nums = [0,0, 1,0,2,0, 3]
+print(move_zeros(nums))
+print("**********")
+
+# 10:30-10:45
+"""
+Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
+"""
+
+def missing_num(my_list):
+    my_dict= defaultdict(int)
+    for num in nums:
+        my_dict[num] = 1
+
+    for index in range(len(my_list)):
+        if my_dict[index] == 0:
+            return index
+
+nums = [9,6,4,2,3,5,7,0,1]
+print(missing_num(nums))
+print("*********")
+
+# 10:45-11
+"""Given an integer x, return true if x is a
+palindrome , and false otherwise."""
+
+def Palindrome_num(num):
+    if num < 0:
+        return False
+
+    num = list(str(num))
+    start = 0
+    end = len(num)-1
+
+    while start < end:
+        if num[start] == num[end]:
+            start+=1
+            end-=1
+        else:
+            return False
+    return True
+
+num = 121
+print(Palindrome_num(num))
+print("********")
+
+
+# 11-11:15
+"""
+Given an integer array nums sorted in non-decreasing order, return an array of the squares of each number sorted in non-decreasing order.
+Input: nums = [-7,-3,2,3,11]
+Output: [4,9,9,49,121]
+"""
+
+def sortedSquares(nums):
+    positive_list = [x**2 for x in nums if x>=0]
+    negative_list = [x**2 for x in nums if x<0][::-1]
+
+    # [4, 9, 12]
+    # [9, 49]
+
+    list_size = len(nums)
+    new_list = []
+
+    for i in range(list_size):
+        if len(positive_list) == 0:
+            new_list += negative_list
+            return new_list
+
+        if len(negative_list) == 0:
+            new_list += positive_list
+            return new_list
+
+        if positive_list[0] < negative_list[0]:
+            new_list.append(positive_list[0]) #[4] [9]
+            positive_list = positive_list[1:] # [12]
+        else:
+            new_list.append(negative_list[0]) # [9]
+            negative_list = negative_list[1:] #[49]
+
+    return new_list
+
+nums = [-7,-3,2,3,11]
+print(sortedSquares(nums))
+print("*******")
+
+# 11:15-11:30
+"""
+Given an integer array nums, find the subarray with the largest sum, and return its sum.
+Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+Output: 6
+"""
+
+def MaximumSubarray(nums):
+    temp_sum = 0
+    max_sum = 0
+    for num in nums:
+        temp_sum+=num
+        if temp_sum < 0:
+            temp_sum = 0
+        else:
+            max_sum = max(max_sum, temp_sum)
+    return max_sum
+
+nums = [-2,1,-3,4,-1,2,1,-5,4]
+print(MaximumSubarray(nums))
+print("*********")
+
+
+# 11:30-11:45
+"""
+You are given an array of non-overlapping intervals intervals where intervals[i] = [starti, endi] represent the start and the end of the ith interval and intervals is sorted in ascending order by starti. You are also given an interval newInterval = [start, end] that represents the start and end of another interval.
+
+Insert newInterval into intervals such that intervals is still sorted in ascending order by starti and intervals still does not have any overlapping intervals (merge overlapping intervals if necessary).
+
+Return intervals after the insertion.
+
+intervals = [[1,3],[6,9]], newInterval = [2,5]
+Output: [[1,5],[6,9]] 
+"""
+
+def InsertInterval(intervals, new_interval):
+    intervals = sorted(intervals, key=lambda x:x[0])
+
+
+intervals = [[1, 2],[3, 5],[6, 7],[8, 10],[12, 16]]
+newInterval = [4,8]
+print(InsertInterval(intervals, newInterval))
+print("**********")
 
 
 
+"""
+Implement a first in first out (FIFO) queue using only two stacks. The implemented queue should support all the functions of a normal queue (push, peek, pop, and empty).
 
+Implement the MyQueue class:
 
+    void push(int x) Pushes element x to the back of the queue.
+    int pop() Removes the element from the front of the queue and returns it.
+    int peek() Returns the element at the front of the queue.
+    boolean empty() Returns true if the queue is empty, false otherwise.
+    
+MyQueue myQueue = new MyQueue();
+myQueue.push(1); // queue is: [1]
+myQueue.push(2); // queue is: [1, 2] (leftmost is front of the queue)
+myQueue.peek(); // return 1
+myQueue.pop(); // return 1, queue is [2]
+myQueue.empty(); // return false
+"""
 
+class MyQueue:
+    def __init__(self):
+        self.stack1 = []
+        self.stack2 = []
+
+    def push(self, x):
+        self.stack1.append(x)
+
+    def pop(self):
+        if not self.stack2:
+            while self.stack1:
+                self.stack2.append(self.stack1.pop())
+        return self.stack2.pop()
+
+    def peek(self):
+        if not self.stack2:
+            while self.stack1:
+                self.stack2.append(self.stack1.pop())
+        return self.stack2[-1]
+
+    def empty(self):
+        return not self.stack1 and not self.stack2
+
+queue = MyQueue()
+queue.push(1)
+queue.push(2)
+print(queue.peek())    # Output: 1
+print(queue.pop())     # Output: 1
+print(queue.empty())
 
 """You are given an integer array height of length n.
 There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
@@ -892,7 +1377,6 @@ print(Set_Matrix_Zeroes(matrix))
 
 word = "hello"
 
-from collections import Counter
 
 
 def anagrams(word1, word2):
@@ -1007,9 +1491,7 @@ def canPartition(nums):
 
     return False
 
-
 # print(canPartition([2, 5, 6, 5, 6]))
-
 from itertools import product
 
 
@@ -1458,9 +1940,6 @@ def longestConsecutive(nums):
             count = 0
 
     return ans
-
-
-def soduko_
 
 
 nums = [1, 2, 4, 3, 5, 6, 7, 9, 12]
