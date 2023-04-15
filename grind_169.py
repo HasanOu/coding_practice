@@ -644,14 +644,146 @@ intervals = [[1,3],[6,9]], newInterval = [2,5]
 Output: [[1,5],[6,9]] 
 """
 
-def InsertInterval(intervals, new_interval):
-    intervals = sorted(intervals, key=lambda x:x[0])
 
+def InsertInterval(intervals, new_interval):
+    res = []
+    i=0
+
+    while i < len(intervals) and intervals[i][1] < new_interval[0]:
+        res.append(intervals[i])
+        i+=1
+
+    while i < len(intervals) and intervals[i][1] > new_interval[0] and intervals[i][0] <= new_interval[1]:
+        new_interval[0] = min(new_interval[0], intervals[i][0])
+        new_interval[1] = max(new_interval[1], intervals[i][1])
+        i+=1
+
+    res.append(new_interval)
+
+    while i< len(intervals):
+        res.append(intervals[i])
+        i+=1
+
+    return res
 
 intervals = [[1, 2],[3, 5],[6, 7],[8, 10],[12, 16]]
 newInterval = [4,8]
 print(InsertInterval(intervals, newInterval))
 print("**********")
+
+"""
+Given an m x n binary matrix mat, return the distance of the nearest 0 for each cell.
+
+The distance between two adjacent cells is 1.
+"""
+
+"""
+Given a string s, find the length of the longest
+substring without repeating characters.
+"""
+
+def longestsubstring(my_str):
+    my_list = list(my_str)
+    max_size = 0
+    new_list = []
+    i = 0
+    while i < len(my_list):
+        char = my_list[i]
+        i+=1
+        if char not in new_list:
+            new_list.append(char)
+
+        else:
+            max_size = max(max_size, len(new_list))
+            new_list = []
+            index = my_list.index(char)
+            i = index+1
+
+    return max(max_size, len(new_list))
+
+my_str = "abcddfgtrtyuio"
+print(longestsubstring(my_str))
+print("*******")
+
+"""
+Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+Notice that the solution set must not contain duplicate triplets.
+nums = [-1,0,1,2,-1,-4]
+"""
+
+def threeSum(nums):
+    """
+    Given an array nums of n integers, find all unique triplets in the array
+    which gives the sum of zero. The solution set must not contain duplicate triplets.
+
+    Args:
+        nums (List[int]): The input list of integers.
+
+    Returns:
+        List[List[int]]: The list of unique triplets that sum to zero.
+    """
+    nums.sort()
+    result = []
+
+    for i in range(len(nums)-2):
+
+        left, right = i+1, len(nums)-1
+
+        while left < right:
+            total = nums[i] + nums[left] + nums[right]
+            if total < 0:
+                left += 1
+            elif total > 0:
+                right -= 1
+            else:
+                result.append([nums[i], nums[left], nums[right]])
+                left += 1
+                right -= 1
+
+    new_result = []
+    for item in result:
+        if item not in new_result:
+            new_result.append(item)
+
+    return new_result
+nums = [-1,0,1,2,-1,-4]
+print(threeSum(nums))
+print("**********")
+
+"""
+Evaluate Reverse Polish Notation
+You are given an array of strings tokens that represents an arithmetic expression in a Reverse Polish Notation.
+Evaluate the expression. Return an integer that represents the value of the expression.
+"""
+
+def ReversePolishNotation():
+    pass
+
+
+"""
+Course schedule
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates 
+that you must take course bi first if you want to take course ai.
+
+    For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+
+Return true if you can finish all courses. Otherwise, return false. 
+"""
+
+"""You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
+
+Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
+
+You may assume that you have an infinite number of each kind of coin.
+coins = [1,2,5], amount = 11
+"""
+
+def TwoCoin(coins, amount):
+    dp = [0]*amount
+
+
+
 
 
 
