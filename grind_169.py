@@ -401,10 +401,47 @@ def Backspace_String_Compare(s, t):
     else:
         return False
 
-s = "ab##"
-t = "c#d#"
-print(Backspace_String_Compare(s, t))
-print("*********")
+def backspaceCompare(s, t):
+    # https://leetcode.com/problems/backspace-string-compare/
+
+    list_1 = []
+    list_2 = []
+    for letter in s:
+        if letter != "#":
+            list_1.append(letter)
+        if letter == "#" and len(list_1) > 0:
+            list_1.pop()
+
+    for letter in t:
+        if letter != "#":
+            list_2.append(letter)
+        if letter == "#" and len(list_2) > 0:
+            list_2.pop()
+
+    if list_1 == list_2:
+        return True
+    else:
+        return False
+
+# Alternative solution
+def backspaceCompare2(s, t):
+    # Define a function to simulate backspacing in a string
+    def backspace(s):
+        stack = []
+        for char in s:
+            if char == '#':
+                if stack:
+                    stack.pop()
+            else:
+                stack.append(char)
+        return stack
+
+    # Use the backspace function to compare the modified strings
+    return backspace(s) == backspace(t)
+
+s = "abc"
+t = "ad#c"
+print(backspaceCompare(s, t))
 
 # =========================== Longest common prefix ==========================
 """
@@ -415,44 +452,147 @@ If there is no common prefix, return an empty string "".
 
 def longest_common_prefix(strs):
     min_size = min(list(map(len, strs)))
-    min_size = min([len(s) for s in strs])
+    # min_size = min([len(s) for s in strs])
+
+    if not strs:
+        return ""
+
     count = 0
     total_count = 0
+    temp = 0
     for char in range(min_size):
+        if temp == -1:
+            break
+
         for index in range(len(strs) - 1):
             if strs[index][char] == strs[index + 1][char]:
-                count = max(1, count)
+                count = 1
             else:
                 count = 0
-        total_count += count
+                temp = -1
+                break
+        total_count +=count
     return strs[0][:total_count]
 
-
-strs = ["flower", "flow", "flight"]
+strs = ["flowerrr", "flowgrrr", "flowirrrht"]
 print(longest_common_prefix(strs))
 print("*******")
 
+# ========================== Single number ==============================
+"""Given a non-empty array of integers nums, 
+every element appears twice except for one. Find that single one.
 
+You must implement a solution with a linear runtime complexity and use only constant extra space.
 
+nums = [2,2,1]
+output = 1
+"""
 
+def single_num(nums):
+    freq_dict = defaultdict(int)
+    for num in nums:
+        freq_dict[num] += 1
 
+    for (key,value) in freq_dict.items():
+        if value == 1:
+             return key
 
+nums = [4,1,2,1,2]
+print(single_num(nums))
+print("***********")
 
+# ===================================== Move Zeroes ==============================
+"""Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
 
+Note that you must do this in-place without making a copy of the array.
 
+nums = [0,1,0,3,12]
+output = [1,3,12,0,0]
+"""
 
+# complexity O(n^2)
+def move_zeros(nums):
+    count = 0
+    for index, num in enumerate(nums):
+        if num == 0:
+            nums.append(0)
+            nums.remove(0)
+    return nums
 
+nums = [0, 0, 1, 0, 2, 0, 3]
+print(move_zeros(nums))
+print("**********")
 
+# ========================= Missing number ======================
+"""Given an array nums containing n distinct numbers in the range [0, n], 
+return the only number in the range that is missing from the array.
+nums = [3,0,1]
+output = 2
+"""
 
+def missing_num(nums: List) -> int:
+    freq_dict = defaultdict(int)
 
+    for num in nums:
+        freq_dict[num] = 1
 
+    for num in range(len(nums)):
+        if freq_dict[num] == 0:
+            return num
 
+nums = [9,6,4,2,3,5,7,0,1]
+output = 2
+print(missing_num(nums))
+print("********")
 
+# ========================== Palindrome Number ===========================
+"""Given an integer x, return true if x is a palindrome, and false otherwise."""
 
+def palindrome(x: List) -> bool:
+    my_list = list(str(x))
+    if my_list[0] == "-":
+        return False
 
+    if my_list == my_list[::-1]:
+        return True
+    else:
+        return False
 
+# ================================ Square of sorted array ========================
+"""Given an integer array nums sorted in non-decreasing order, 
+return an array of the squares of each number sorted in non-decreasing order."""
 
+def sortedSquares(nums):
+    positive_list = [x ** 2 for x in nums if x >= 0]
+    negative_list = [x ** 2 for x in nums if x < 0][::-1]
 
+    # [4, 9, 12]
+    # [9, 49]
+
+    list_size = len(nums)
+    new_list = []
+
+    for i in range(list_size):
+        if len(positive_list) == 0:
+            new_list += negative_list
+            return new_list
+
+        if len(negative_list) == 0:
+            new_list += positive_list
+            return new_list
+
+        if positive_list[0] < negative_list[0]:
+            new_list.append(positive_list[0])  # [4] [9]
+            positive_list = positive_list[1:]  # [12]
+        else:
+            new_list.append(negative_list[0])  # [9]
+            negative_list = negative_list[1:]  # [49]
+
+    return new_list
+
+nums = [-7, -3, 2, 3, 11]
+print(sortedSquares(nums))
+print("*******")
 
 # Merge Two Sorted Lists
 """
@@ -569,22 +709,6 @@ word2 = "caab"
 print(Validanagram(word1, word2))
 print("**************")
 
-# Alternative solution
-def backspaceCompare(s, t):
-    # Define a function to simulate backspacing in a string
-    def backspace(s):
-        stack = []
-        for char in s:
-            if char == '#':
-                if stack:
-                    stack.pop()
-            else:
-                stack.append(char)
-        return stack
-
-    # Use the backspace function to compare the modified strings
-    return backspace(s) == backspace(t)
-
 
 # 10-10:15
 """
@@ -608,24 +732,6 @@ def singleNumber(nums):
 nums = [4, 1, 2, 1, 2]
 print(singleNumber(nums))
 print("********")
-
-# 10:15-10:30
-"""Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
-
-Note that you must do this in-place without making a copy of the array."""
-
-
-def move_zeros(nums):
-    for num in nums:
-        if num == 0:
-            nums.append(0)
-            nums.remove(0)
-    return nums
-
-
-nums = [0, 0, 1, 0, 2, 0, 3]
-print(move_zeros(nums))
-print("**********")
 
 # 10:30-10:45
 """
@@ -672,47 +778,6 @@ def Palindrome_num(num):
 num = 121
 print(Palindrome_num(num))
 print("********")
-
-# 11-11:15
-"""
-Given an integer array nums sorted in non-decreasing order, return an array of the squares of each number sorted in non-decreasing order.
-Input: nums = [-7,-3,2,3,11]
-Output: [4,9,9,49,121]
-"""
-
-
-def sortedSquares(nums):
-    positive_list = [x ** 2 for x in nums if x >= 0]
-    negative_list = [x ** 2 for x in nums if x < 0][::-1]
-
-    # [4, 9, 12]
-    # [9, 49]
-
-    list_size = len(nums)
-    new_list = []
-
-    for i in range(list_size):
-        if len(positive_list) == 0:
-            new_list += negative_list
-            return new_list
-
-        if len(negative_list) == 0:
-            new_list += positive_list
-            return new_list
-
-        if positive_list[0] < negative_list[0]:
-            new_list.append(positive_list[0])  # [4] [9]
-            positive_list = positive_list[1:]  # [12]
-        else:
-            new_list.append(negative_list[0])  # [9]
-            negative_list = negative_list[1:]  # [49]
-
-    return new_list
-
-
-nums = [-7, -3, 2, 3, 11]
-print(sortedSquares(nums))
-print("*******")
 
 # 11:15-11:30
 """
@@ -2135,34 +2200,6 @@ def canAttendMeetings(intervals):
 
 intervals = [[0, 30], [5, 10], [15, 20]]
 print(canAttendMeetings(intervals))
-
-
-def backspaceCompare(s, t):
-    # https://leetcode.com/problems/backspace-string-compare/
-
-    list_1 = []
-    list_2 = []
-    for letter in s:
-        if letter != "#":
-            list_1.append(letter)
-        if letter == "#" and len(list_1) > 0:
-            list_1.pop()
-
-    for letter in t:
-        if letter != "#":
-            list_2.append(letter)
-        if letter == "#" and len(list_2) > 0:
-            list_2.pop()
-
-    if list_1 == list_2:
-        return True
-    else:
-        return False
-
-
-s = "abc"
-t = "ad#c"
-print(backspaceCompare(s, t))
 
 
 def longestCommonPrefix(strs):
