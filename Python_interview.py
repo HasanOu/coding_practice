@@ -33,6 +33,9 @@ This is a list of conceptual questions in Python
 # 15 Is Python Object-oriented or Functional Programming?
 
 # 16 What is functional programming?
+# Immutability
+# Pure function
+# Higher order function
 
 # 17 What is a pure function?
 
@@ -89,9 +92,10 @@ say_hello()
 
 # 35 What are types of literals in Python?
 
-# 36 What is the difference etween expression and statement?
+# 36 What is the difference between expression and statement?
 
 # 37 What is the different between iterator and iteration?
+# iterator ---> generator or iter([1,2,3])
 
 # 38 What are Python modules? Name a few Python built-in modules that are often used.
 
@@ -114,6 +118,7 @@ say_hello()
 # 47 What is a dictionary in Python?
 
 # 48 Explain the split(), sub(), and subn() methods of the Python "re" module.
+# regular expression
 
 # 49  What are Python libraries?
 
@@ -124,11 +129,41 @@ say_hello()
 # 52 What are the different types of inheritance in Python?
 
 # 53 Explain polymorphism in Python.
+# oBJECTS CAN GET DIFFERENT FORM DEPENDING ON THE CONTEXT (INPUT)
 
 # 54 What is encapsulation in Python?
+# make use of _, __ to make each method or attribute private or protected
+# _ private __ protected
 
 # 55  What is GIL?
 
 # 56 How to write a Unicode string in Python?
 
+# 67 What is the difference between staticmethod and classmethod in Python?
+
+# 68 How do you handle exceptions in Python? What are some common built-in exceptions?
+
+# 69 What is a generator in Python? How do you create and use them?
+
+# 70 How do you handle concurrency and parallelism in Python? What are some common libraries for this purpose?
+
+# 71 What are Python's built-in data structures? How do you choose which one to use for a given task?
+
+# 72 How do you serialize and deserialize data in Python? What are some common serialization formats?
+
+# 73 What are some common design patterns in Python? How do you use them?
+
+# 74 What are some common anti-patterns in Python? How do you avoid them?
+
+# 75 How do you check if a string is empty?
+
+# 76 How do ypu check if a file exists?
+
+# 77 How do you read a file line by line?
+
+# 78 How do you write a list to a file?
+
+# 79 How do you read data froma  database?
+
+# 80 What are the key modules in Python for database
 

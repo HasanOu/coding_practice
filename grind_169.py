@@ -2,7 +2,7 @@ import collections
 import numpy as np
 from collections import Counter
 from collections import defaultdict
-
+from typing import List
 
 """Given an array of integers nums and an integer target, return indices of the
 two numbers such that they add up to target.
@@ -17,22 +17,23 @@ Output: [0,1]
 Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 """
 
+# =========================== Two Sum =============================
 def twoSum(nums, target):
     # create a dictionary to store each number and its index
-    nums_dict = {}
+    complement_dict = {}
 
     # loop through each number in the array
-    for i in range(len(nums)):
+    for i, num in enumerate(nums):
 
         # calculate the complement (the number we need to reach the target)
-        complement = target - nums[i]
+        complement = target - num
 
         # if the complement is already in the dictionary, we found a solution
-        if complement in nums_dict:
-            return [nums_dict[complement], i]
+        if complement in complement_dict.keys():
+            return [complement_dict[complement], i]
 
         # if the complement is not in the dictionary, add the current number and its index to the dictionary
-        nums_dict[nums[i]] = i
+        complement_dict[num] = i
 
     # if no solution was found, return an empty array
     return []
@@ -42,6 +43,7 @@ output = twoSum(arr, 10)
 print(output)
 print("***********")
 
+# ============================= Valid Parentheses ============================
 """Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
 
 An input string is valid if:
@@ -73,45 +75,11 @@ def IsValid(my_string):
     else:
         return False
 
-my_string = "()[]{}"
+my_string = "(({}))"
 print(IsValid(my_string))
 print("*******")
 
-# Merge Two Sorted Lists
-"""
-You are given the heads of two sorted linked lists list1 and list2.
-
-Merge the two lists in a one sorted list. The list should be made by splicing together the nodes of the first two lists.
-
-Return the head of the merged linked list.
-
-Input: list1 = [1,2,4], list2 = [1,3,4]
-Output: [1,1,2,3,4,4]
-"""
-
-def MergeLists(list1, list2):
-    if len(list1) == 0:
-        return list2
-
-    if len(list2) == 0:
-        return list1
-
-    MergeList = []
-    while min(len(list1), len(list2)) != 0:
-        if list1[0] < list2[0]:
-            MergeList.append(list1[0])
-            list1 = list1[1:]
-        else:
-            MergeList.append(list2[0])
-            list2 = list2[1:]
-
-    return MergeList + list1 + list2
-
-list1 = [1,2,4]
-list2 = [2,3,5,8]
-print(MergeLists(list1, list2))
-print("*****")
-
+# ========================= Best Time to Buy and Sell Stock ========================
 """ Best Time to buy stocks
 You are given an array prices where prices[i] is the price of a given stock on the ith day.
 
@@ -127,15 +95,15 @@ Note that buying on day 2 and selling on day 1 is not allowed because you must b
 
 def buy_sell_profit(my_list):
     start = 0
-    end = len(my_list)-1
+    end = len(my_list) - 1
 
     max_profit = max(0, my_list[end] - my_list[start])
 
-    if my_list[start] > my_list[start+1]:
+    if my_list[start] > my_list[start + 1]:
         start += 1
         max_profit = my_list[end] - my_list[start]
 
-    if my_list[end] < my_list[end-1]:
+    if my_list[end] < my_list[end - 1]:
         end -= 1
         max_profit = my_list[end] - my_list[start]
 
@@ -145,32 +113,12 @@ def buy_sell_profit(my_list):
 
     return max_profit
 
-# Another implementation
-def maxProfit(prices):
-    # Initialize the minimum price to the first price in the array
-    min_price = prices[0]
-
-    # Initialize the maximum profit to 0
-    max_profit = 0
-
-    # Loop through the prices array starting from the second price
-    for i in range(1, len(prices)):
-        # Update the minimum price seen so far
-        min_price = min(min_price, prices[i])
-        # Calculate the profit that could be made by selling on this day
-        current_profit = prices[i] - min_price
-        # Update the maximum profit seen so far
-        max_profit = max(max_profit, current_profit)
-
-    # Return the maximum profit
-    return max_profit
-
-prices = [7,1,15,3,16,4]
+prices = [7, 1, 15, 3, 16, 4]
 print(buy_sell_profit(prices))
 print("*******")
 
+# ================================= Valid Palindrome ==============================
 """A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
-
 Given a string s, return true if it is a palindrome, or false otherwise."""
 
 def Validpalindrome(my_string):
@@ -181,32 +129,69 @@ def Validpalindrome(my_string):
     else:
         return False
 
+def Validpalindrome2(my_string):
+    my_string = my_string.replace(" ", "").lower()
+
+    left, right = 0, len(s)-1
+    while left < right:
+        if my_string[left]!= my_string[right]:
+            return False
+        left+=1
+        right-=1
+    return True
+
+# ================================ Valid Anagram ==========================
+def anagrams(word1, word2):
+    return Counter(word1) == Counter(word2)
+
+def anagrams2(word1, word2):
+    word1_freq = {}
+
+    if len(word1) != len(word2):
+        return False
+
+    for char in word1:
+        word1_freq[s]= word1_freq.get(char,0)+1
+
+    for char in word2:
+        if char not in word1_freq.keys():
+            return False
+        word1_freq[char] -= 1
+        if word1_freq[char] < 0:
+            return False
+    return True
+
+# ================================ Binary Search ========================
 """
-Given the root of a binary tree, invert the tree, and return its root.
+Given an array of integers nums which is sorted in ascending order, 
+and an integer target, write a function to search target in nums. If target exists, then return its index. 
+Otherwise, return -1.
+You must write an algorithm with O(log n) runtime complexity.
+
+nums = [-1,0,3,5,9,12], target = 9
+output: 4
 """
 
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
+def binary_search(nums, target):
+    left = 0
+    right = len(nums)-1
 
+    while left <= right:
+        mid = int((left+right)/2)
 
-def invertTree(root):
-    # Base case: if the root is None, return None
-    if not root:
-        return None
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] < target:
+            left = mid+1
+        else:
+            right = mid-1
+    return -1
 
-    # Recursively invert the left and right subtrees
-    left = invertTree(root.left)
-    right = invertTree(root.right)
+nums = [-1,0,3,5,9,12]
+target = 30
+print(binary_search(nums,target))
+print("***********")
 
-    # Swap the left and right subtrees
-    root.left = right
-    root.right = left
-
-    # Return the inverted tree
-    return root
 
 """
 An image is represented by an m x n integer grid image where image[i][j] represents the pixel value of the image.
@@ -249,6 +234,77 @@ def floodFill(image, sr, sc, newColor):
     # Return the modified image
     return image
 
+# Merge Two Sorted Lists
+"""
+You are given the heads of two sorted linked lists list1 and list2.
+
+Merge the two lists in a one sorted list. The list should be made by splicing together the nodes of the first two lists.
+
+Return the head of the merged linked list.
+
+Input: list1 = [1,2,4], list2 = [1,3,4]
+Output: [1,1,2,3,4,4]
+"""
+
+def MergeLists(list1, list2):
+    if len(list1) == 0:
+        return list2
+
+    if len(list2) == 0:
+        return list1
+
+    MergeList = []
+    while min(len(list1), len(list2)) != 0:
+        if list1[0] < list2[0]:
+            MergeList.append(list1[0])
+            list1 = list1[1:]
+        else:
+            MergeList.append(list2[0])
+            list2 = list2[1:]
+
+    return MergeList + list1 + list2
+
+
+list1 = [1, 2, 4]
+list2 = [2, 3, 5, 8]
+print(MergeLists(list1, list2))
+print("*****")
+
+
+
+
+
+
+"""
+Given the root of a binary tree, invert the tree, and return its root.
+"""
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+def invertTree(root):
+    # Base case: if the root is None, return None
+    if not root:
+        return None
+
+    # Recursively invert the left and right subtrees
+    left = invertTree(root.left)
+    right = invertTree(root.right)
+
+    # Swap the left and right subtrees
+    root.left = right
+    root.right = left
+
+    # Return the inverted tree
+    return root
+
+
+
 """
 Given two strings s and t, return true if t is an anagram of s, and false otherwise.
 
@@ -258,10 +314,13 @@ An Anagram is a word or phrase formed by rearranging the letters of a different 
 
 """
 
+
 def Validanagrams(word1, word2):
     return Counter(word1) == Counter(word2)
 
+
 import copy
+
 
 def Validanagram(word1, word2):
     word1 = list(word1)
@@ -284,15 +343,18 @@ def Validanagram(word1, word2):
     else:
         return False
 
+
 word1 = "aabc"
-word2= "caab"
+word2 = "caab"
 print(Validanagram(word1, word2))
 print("**************")
+
 
 def isBadVersion(version):
     # This function is given in the problem statement
     # and returns whether a version is bad
     pass
+
 
 """You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad.
 
@@ -300,6 +362,7 @@ Suppose you have n versions [1, 2, ..., n] and you want to find out the first ba
 
 You are given an API bool isBadVersion(version) which returns whether version is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API.
 """
+
 
 def firstBadVersion(n):
     # Initialize the search range
@@ -319,6 +382,7 @@ def firstBadVersion(n):
 
     # Return the first bad version
     return left
+
 
 """
 You are climbing a staircase. It takes n steps to reach the top.
@@ -342,6 +406,7 @@ def climbStairs(n):
     # Return the number of distinct ways to climb the staircase
     return dp[n]
 
+
 """
 Given a string s which consists of lowercase or uppercase letters, return the length of the longest palindrome that can be built with those letters.
 
@@ -352,6 +417,7 @@ Output: 7
 Explanation: One longest palindrome that can be built is "dccaccd", whose length is 7.
 """
 
+
 def Langestpalindrome(my_string):
     dict = Counter(my_string)
 
@@ -361,10 +427,11 @@ def Langestpalindrome(my_string):
         if value % 2 == 0:
             max_length += value
         else:
-            max_length += value -1
+            max_length += value - 1
             mid_val = 1
 
     return max_length + mid_val
+
 
 my_string = "dccaaaccd"
 print(Langestpalindrome(my_string))
@@ -377,18 +444,21 @@ The majority element is the element that appears more than ⌊n / 2⌋ times. Yo
 nums = [2,2,1,1,1,2,2]
 """
 
+
 def MajorityElement(nums):
     dict = defaultdict(int)
 
     for num in nums:
-        dict[num]+=1
+        dict[num] += 1
 
     return max(dict.keys())
 
-print(MajorityElement([2,2,1,1,1,2,2]))
+
+print(MajorityElement([2, 2, 1, 1, 1, 2, 2]))
 print("***********")
 
 """Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct."""
+
 
 def ContainsDuplicate(nums):
     new_list = []
@@ -402,17 +472,19 @@ def ContainsDuplicate(nums):
 
 """Given an array of meeting time intervals intervals where intervals[i] = [start_i, end_i], determine if a person could attend all meetings."""
 
+
 def MeetingRoom(intervals):
     sorted_list = sorted(intervals, key=lambda x: x[0])
     pair_list = list(zip(intervals, sorted_list[1:]))
 
-    for (first,second) in pair_list:
+    for (first, second) in pair_list:
         if first[1] > second[0]:
             return False
 
     return True
 
-intervals = [[0,5],[5,10],[10,15]]
+
+intervals = [[0, 5], [5, 10], [10, 15]]
 print(MeetingRoom(intervals))
 print("*********")
 
@@ -425,6 +497,7 @@ Input: s = "ab#c", t = "ad#c"
 Output: true
 Explanation: Both s and t become "ac".
 """
+
 
 def Backspace_String_Compare(s, t):
     new_s = []
@@ -440,13 +513,14 @@ def Backspace_String_Compare(s, t):
             new_t = new_t[:-2]
 
     if new_s == new_t:
-         return True
+        return True
     else:
-         return False
+        return False
 
-s= "ab##"
+
+s = "ab##"
 t = "c#d#"
-print(Backspace_String_Compare(s,t))
+print(Backspace_String_Compare(s, t))
 print("*********")
 
 
@@ -466,11 +540,13 @@ def backspaceCompare(s, t):
     # Use the backspace function to compare the modified strings
     return backspace(s) == backspace(t)
 
+
 """
 Write a function to find the longest common prefix string amongst an array of strings.
 
 If there is no common prefix, return an empty string "".
 """
+
 
 # 9-45  10
 def longest_common_prefix(strs):
@@ -479,15 +555,16 @@ def longest_common_prefix(strs):
     count = 0
     total_count = 0
     for char in range(min_size):
-        for index in range(len(strs)-1):
-            if strs[index][char] == strs[index+1][char]:
+        for index in range(len(strs) - 1):
+            if strs[index][char] == strs[index + 1][char]:
                 count = max(1, count)
             else:
                 count = 0
         total_count += count
     return strs[0][:total_count]
 
-strs = ["flower","flow","flight"]
+
+strs = ["flower", "flow", "flight"]
 print(longest_common_prefix(strs))
 print("*******")
 
@@ -497,17 +574,20 @@ Given a non-empty array of integers nums, every element appears twice except for
 
 You must implement a solution with a linear runtime complexity and use only constant extra space.
 """
+
+
 def singleNumber(nums):
-    my_dict=defaultdict(int)
+    my_dict = defaultdict(int)
 
     for num in nums:
-        my_dict[num]+=1
+        my_dict[num] += 1
 
     for (key, value) in my_dict.items():
         if value % 2 == 1:
             return key
 
-nums = [4,1,2,1,2]
+
+nums = [4, 1, 2, 1, 2]
 print(singleNumber(nums))
 print("********")
 
@@ -516,6 +596,7 @@ print("********")
 
 Note that you must do this in-place without making a copy of the array."""
 
+
 def move_zeros(nums):
     for num in nums:
         if num == 0:
@@ -523,7 +604,8 @@ def move_zeros(nums):
             nums.remove(0)
     return nums
 
-nums = [0,0, 1,0,2,0, 3]
+
+nums = [0, 0, 1, 0, 2, 0, 3]
 print(move_zeros(nums))
 print("**********")
 
@@ -532,8 +614,9 @@ print("**********")
 Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
 """
 
+
 def missing_num(my_list):
-    my_dict= defaultdict(int)
+    my_dict = defaultdict(int)
     for num in nums:
         my_dict[num] = 1
 
@@ -541,7 +624,8 @@ def missing_num(my_list):
         if my_dict[index] == 0:
             return index
 
-nums = [9,6,4,2,3,5,7,0,1]
+
+nums = [9, 6, 4, 2, 3, 5, 7, 0, 1]
 print(missing_num(nums))
 print("*********")
 
@@ -549,26 +633,27 @@ print("*********")
 """Given an integer x, return true if x is a
 palindrome , and false otherwise."""
 
+
 def Palindrome_num(num):
     if num < 0:
         return False
 
     num = list(str(num))
     start = 0
-    end = len(num)-1
+    end = len(num) - 1
 
     while start < end:
         if num[start] == num[end]:
-            start+=1
-            end-=1
+            start += 1
+            end -= 1
         else:
             return False
     return True
 
+
 num = 121
 print(Palindrome_num(num))
 print("********")
-
 
 # 11-11:15
 """
@@ -577,9 +662,10 @@ Input: nums = [-7,-3,2,3,11]
 Output: [4,9,9,49,121]
 """
 
+
 def sortedSquares(nums):
-    positive_list = [x**2 for x in nums if x>=0]
-    negative_list = [x**2 for x in nums if x<0][::-1]
+    positive_list = [x ** 2 for x in nums if x >= 0]
+    negative_list = [x ** 2 for x in nums if x < 0][::-1]
 
     # [4, 9, 12]
     # [9, 49]
@@ -597,15 +683,16 @@ def sortedSquares(nums):
             return new_list
 
         if positive_list[0] < negative_list[0]:
-            new_list.append(positive_list[0]) #[4] [9]
-            positive_list = positive_list[1:] # [12]
+            new_list.append(positive_list[0])  # [4] [9]
+            positive_list = positive_list[1:]  # [12]
         else:
-            new_list.append(negative_list[0]) # [9]
-            negative_list = negative_list[1:] #[49]
+            new_list.append(negative_list[0])  # [9]
+            negative_list = negative_list[1:]  # [49]
 
     return new_list
 
-nums = [-7,-3,2,3,11]
+
+nums = [-7, -3, 2, 3, 11]
 print(sortedSquares(nums))
 print("*******")
 
@@ -616,21 +703,22 @@ Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
 Output: 6
 """
 
+
 def MaximumSubarray(nums):
     temp_sum = 0
     max_sum = 0
     for num in nums:
-        temp_sum+=num
+        temp_sum += num
         if temp_sum < 0:
             temp_sum = 0
         else:
             max_sum = max(max_sum, temp_sum)
     return max_sum
 
-nums = [-2,1,-3,4,-1,2,1,-5,4]
+
+nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
 print(MaximumSubarray(nums))
 print("*********")
-
 
 # 11:30-11:45
 """
@@ -647,27 +735,28 @@ Output: [[1,5],[6,9]]
 
 def InsertInterval(intervals, new_interval):
     res = []
-    i=0
+    i = 0
 
     while i < len(intervals) and intervals[i][1] < new_interval[0]:
         res.append(intervals[i])
-        i+=1
+        i += 1
 
     while i < len(intervals) and intervals[i][1] > new_interval[0] and intervals[i][0] <= new_interval[1]:
         new_interval[0] = min(new_interval[0], intervals[i][0])
         new_interval[1] = max(new_interval[1], intervals[i][1])
-        i+=1
+        i += 1
 
     res.append(new_interval)
 
-    while i< len(intervals):
+    while i < len(intervals):
         res.append(intervals[i])
-        i+=1
+        i += 1
 
     return res
 
-intervals = [[1, 2],[3, 5],[6, 7],[8, 10],[12, 16]]
-newInterval = [4,8]
+
+intervals = [[1, 2], [3, 5], [6, 7], [8, 10], [12, 16]]
+newInterval = [4, 8]
 print(InsertInterval(intervals, newInterval))
 print("**********")
 
@@ -682,6 +771,7 @@ Given a string s, find the length of the longest
 substring without repeating characters.
 """
 
+
 def longestsubstring(my_str):
     my_list = list(my_str)
     max_size = 0
@@ -689,7 +779,7 @@ def longestsubstring(my_str):
     i = 0
     while i < len(my_list):
         char = my_list[i]
-        i+=1
+        i += 1
         if char not in new_list:
             new_list.append(char)
 
@@ -697,9 +787,10 @@ def longestsubstring(my_str):
             max_size = max(max_size, len(new_list))
             new_list = []
             index = my_list.index(char)
-            i = index+1
+            i = index + 1
 
     return max(max_size, len(new_list))
+
 
 my_str = "abcddfgtrtyuio"
 print(longestsubstring(my_str))
@@ -711,6 +802,7 @@ Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]]
 Notice that the solution set must not contain duplicate triplets.
 nums = [-1,0,1,2,-1,-4]
 """
+
 
 def threeSum(nums):
     """
@@ -726,9 +818,9 @@ def threeSum(nums):
     nums.sort()
     result = []
 
-    for i in range(len(nums)-2):
+    for i in range(len(nums) - 2):
 
-        left, right = i+1, len(nums)-1
+        left, right = i + 1, len(nums) - 1
 
         while left < right:
             total = nums[i] + nums[left] + nums[right]
@@ -747,7 +839,9 @@ def threeSum(nums):
             new_result.append(item)
 
     return new_result
-nums = [-1,0,1,2,-1,-4]
+
+
+nums = [-1, 0, 1, 2, -1, -4]
 print(threeSum(nums))
 print("**********")
 
@@ -756,6 +850,7 @@ Evaluate Reverse Polish Notation
 You are given an array of strings tokens that represents an arithmetic expression in a Reverse Polish Notation.
 Evaluate the expression. Return an integer that represents the value of the expression.
 """
+
 
 def ReversePolishNotation():
     pass
@@ -779,13 +874,114 @@ You may assume that you have an infinite number of each kind of coin.
 coins = [1,2,5], amount = 11
 """
 
-def TwoCoin(coins, amount):
-    dp = [0]*amount
+def coin_change(coins: List[int], amount: int) -> int:
+    dp = [0] * (amount + 1)
 
+    dp[0] = 0
+    dp[1] = 1
+    dp[2] = 1
+    dp[3] = 2
+    dp[4] = 2
+    dp[5] = 1
 
+    for val in range(6, amount + 1):
+        dp[val] = min(dp[val - 1], dp[val - 2], dp[val - 5]) + 1
+    return dp[amount]
 
+# alternative solution
 
+def gpt_coin_change(coins: List[int], amount: int) -> int:
+    # Create a table to store the fewest number of coins needed for each sub-amount
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
 
+    # Iterate through each coin and each sub-amount, updating the fewest number of coins
+    # needed to make up that amount if a better solution is found.
+    for coin in coins:
+        for i in range(coin, amount + 1):
+            dp[i] = min(dp[i], dp[i - coin] + 1)
+
+coins = [1, 2, 5]
+amount = 24
+print(coin_change(coins, amount))
+print("**********")
+
+"""
+Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
+
+The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+
+You must write an algorithm that runs in O(n) time and without using the division operation.
+"""
+
+def productExceptSelf(nums):
+    new_list = []
+    for index in range(len(nums)):
+        left = 1
+        right = 1
+
+        start = 0
+        while start < index:
+            left = left*nums[start]
+            start+=1
+
+        end = len(nums) - 1
+        while end > index:
+            right = right*nums[end]
+            end-=1
+
+        new_list.append(left*right)
+
+    return new_list
+
+nums = [1,2,3,4]
+print(productExceptSelf(nums))
+print("*********")
+
+"""
+There is an integer array nums sorted in ascending order (with distinct values).
+
+Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k (1 <= k < nums.length) 
+such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). 
+For example, [0,1,2,4,5,6,7] might be rotated at pivot index 3 and become [4,5,6,7,0,1,2].
+
+Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
+
+You must write an algorithm with O(log n) runtime complexity.
+"""
+
+def rotatedarraysearch(nums, target):
+    left = 0
+    right = len(nums)-1
+
+    mid = (left+right)//2
+
+    if nums[mid] == target:
+        return mid
+
+    while left <= right:
+        mid = (left+right)//2
+
+        if nums[mid] == target:
+            return mid
+
+        # the left side is sorted and the target is in the left side
+        if nums[left] <= nums[mid]:
+            if nums[left] <= target <= nums[mid]:
+                right = mid - 1
+            else:
+                left = mid + 1
+        else:
+            if nums[mid] <= target <= nums[right]:
+                left = mid + 1
+            else:
+                right = mid -1
+    return -1
+
+nums = [4,5,6,7,0,1,2]
+target = 0
+print(rotatedarraysearch(nums, target))
+print("********")
 
 """
 Implement a first in first out (FIFO) queue using only two stacks. The implemented queue should support all the functions of a normal queue (push, peek, pop, and empty).
@@ -804,6 +1000,7 @@ myQueue.peek(); // return 1
 myQueue.pop(); // return 1, queue is [2]
 myQueue.empty(); // return false
 """
+
 
 class MyQueue:
     def __init__(self):
@@ -828,11 +1025,12 @@ class MyQueue:
     def empty(self):
         return not self.stack1 and not self.stack2
 
+
 queue = MyQueue()
 queue.push(1)
 queue.push(2)
-print(queue.peek())    # Output: 1
-print(queue.pop())     # Output: 1
+print(queue.peek())  # Output: 1
+print(queue.pop())  # Output: 1
 print(queue.empty())
 
 """You are given an integer array height of length n.
@@ -918,6 +1116,7 @@ Input: nums = [-1,2,1,-4], target = 1
 Output: 2
 Explanation: The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
 """
+
 
 def threesum_closest(arr, target):
     min_diff = float('inf')
@@ -1075,6 +1274,7 @@ Input: nums = [4,5,6,7,0,1,2], target = 3
 Output: -1
 """
 
+
 def search_in_rotated_sorted_array(nums, target):
     # Initilize two pointers
     begin = 0
@@ -1205,6 +1405,7 @@ Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
 Output: 6
 Explanation: [4,-1,2,1] has the largest sum = 6.
 """
+
 
 def Maximum_Subarray(arr):
     max_sum = 0
@@ -1510,7 +1711,6 @@ print(Set_Matrix_Zeroes(matrix))
 word = "hello"
 
 
-
 def anagrams(word1, word2):
     return Counter(word1) == Counter(word2)
 
@@ -1623,6 +1823,7 @@ def canPartition(nums):
 
     return False
 
+
 # print(canPartition([2, 5, 6, 5, 6]))
 from itertools import product
 
@@ -1714,8 +1915,8 @@ arr2 = np.array([[5, 6], [7, 8]])
 arr3 = np.dot(arr1, arr2)
 print(arr3[0][0])
 
-
 from collections import Counter
+
 
 def twoSum(nums, target):
     # https://leetcode.com/problems/two-sum/
@@ -1735,9 +1936,11 @@ def twoSum(nums, target):
 
     return list_twosum_
 
+
 arr = [1, 5, 4, 4, 7, 9]
 output = twoSum(arr, 10)
 print(output)
+
 
 def valid_parentheses(s):
     # https://leetcode.com/problems/two-sum/
@@ -2058,6 +2261,8 @@ print(alternatingCharacters(s))
 import collections
 
 0
+
+
 def longestConsecutive(nums):
     # https: // leetcode.com / problems / longest - consecutive - sequence /
     nums = sorted(nums)
@@ -2077,3 +2282,318 @@ def longestConsecutive(nums):
 nums = [1, 2, 4, 3, 5, 6, 7, 9, 12]
 dict_nums = longestConsecutive(nums)
 print(dict_nums)
+
+# 10-10:30
+# ========================== Combination Sum =========================================
+
+"""
+Given an array of distinct integers candidates and a target integer target, 
+return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.
+The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the
+frequency
+of at least one of the chosen numbers is different.
+The test cases are generated such that the number of unique combinations that sum up to target is less than 150 combinations for the given input."""
+
+def combinationsum(candidates, target):
+    def backtrack(target, path):
+        if target < 0:
+            return
+        if target ==0:
+            res.append(path)
+            return
+        for num in candidates:
+            backtrack(target-num, path+[num])
+
+    res =[]
+    candidates.sort()
+    backtrack(target, [])
+    return res
+
+candidates = [2,3,6,7]
+target = 7
+print(combinationsum(candidates, target))
+print("******")
+
+# """
+# Given an array nums of distinct integers, return all the possible permutations.
+# You can return the answer in any order.
+# """
+#
+# # my solution but it is wrong
+# def permutation(nums):
+#     def construct_permutation(num, item):
+#         new_per_list = []
+#         for i in range(len(item) + 1):
+#             new_perm = item[:i] + [num] + item[i:]
+#             new_per_list.append(new_perm)
+#
+#         return new_per_list
+#
+#     def backtrack(num, permut):
+#         # for each item in permutation, create the permutation of that item
+#         current_permut = []
+#         for item in permut:
+#            for index in range(len(item)):
+#                new_permut = construct_permutation(num, item)
+#                current_permut.extend(new_permut)
+#
+#         result = current_permut
+#         print("******")
+#         permut = result
+#
+#         for num in nums[2:]:
+#            backtrack(num, result)
+#
+#     permut_list = [[nums[1]]]
+#     result = []
+#     backtrack(num = nums[0], permut=permut_list)
+#     return result
+#
+# nums = [1,2,3]
+# print(permutation(nums))
+# print("******")
+#
+# # ==========================
+# # chatgpt solution
+# def permutation(nums):
+#     def construct_permutation(num, item):
+#         new_per_list = []
+#         for i in range(len(item) + 1):
+#             new_perm = item[:i] + [num] + item[i:]
+#             new_per_list.append(new_perm)
+#
+#         return new_per_list
+#
+#     def backtrack(nums, permut):
+#         if not nums:
+#             result.append(permut)
+#         else:
+#             for i in range(len(nums)):
+#                 new_per = construct_permutation(nums[i], permut)
+#                 backtrack(nums[:i] + nums[i+1:], new_per)
+#
+#     result = []
+#     backtrack(nums, [])
+#     return result
+#
+# nums = [1,2,3]
+# print(permutation(nums))
+
+
+def fib_func(n):
+
+    fib = [0]*(n+1)
+    fib[0] = 1
+    fib[1] = 1
+
+    for n in range(2,n):
+        fib[n] = fib[n-1]+fib[n-2]
+
+    return fib[n]
+
+print(fib_func(10))
+
+
+"""
+Given a list of accounts where each element accounts[i] is a list of strings, 
+where the first element accounts[i][0] is a name, and the rest of the elements are emails 
+representing emails of the account.
+
+Now, we would like to merge these accounts. Two accounts definitely belong to the same person if there is some common email to both accounts. Note that even if two accounts have the same name, they may belong to different people as people could have the same name. 
+A person can have any number of accounts initially, but all of their accounts definitely have the same name.
+
+After merging the accounts, return the accounts in the following format: the first element of each account is the name, and the rest of the elements are emails in sorted order. 
+The accounts themselves can be returned in any orde
+"""
+
+from collections import defaultdict
+
+def merge_accounts(accounts):
+    # Create a defaultdict to store emails and corresponding names
+    email_to_name = defaultdict(str)
+
+    # Create a defaultdict to store emails and corresponding emails
+    graph = defaultdict(set)
+
+    # Iterate through each account and their emails
+    for account in accounts:
+        name = account[0]
+        emails = account[1:]
+
+        # Add the email to name mapping
+        for email in emails:
+            email_to_name[email] = name
+
+        # Build the graph for each email in the account
+        for i in range(len(emails)):
+            for j in range(i + 1, len(emails)):
+                graph[emails[i]].add(emails[j])
+                graph[emails[j]].add(emails[i])
+
+    # Create a list to store the merged accounts
+    merged_accounts = []
+
+    # Iterate through each email and their corresponding name
+
+    # Create a set to keep track of visited emails
+    visited = set()
+
+    for email, name in email_to_name.items():
+        if email not in visited:
+            visited.add(email)
+
+            # Create a set to store all emails in the same group
+            group = {email}
+
+            # Perform BFS on the graph to find all connected emails
+            queue = [email]
+            while queue:
+                curr_email = queue.pop(0)
+                for neighbor in graph[curr_email]:
+                    if neighbor not in visited:
+                        visited.add(neighbor)
+                        group.add(neighbor)
+                        queue.append(neighbor)
+
+            # Add the merged account to the result
+            merged_account = [name] + sorted(list(group))
+            merged_accounts.append(merged_account)
+
+    return merged_accounts
+
+accounts = [["John","johnsmith@mail.com","john_newyork@mail.com"],["John","johnsmith@mail.com","john00@mail.com"],["Mary","mary@mail.com"],["John","johnnybravo@mail.com"]]
+print(merge_accounts(accounts))
+
+# BFS implementation
+from collections import deque
+
+def bfs(graph, start_node):
+    visited = set()
+    queue = deque([start_node])
+
+    while queue:
+        curr_node = queue.popleft()
+        visited.add(curr_node)
+
+        # Do something with the current node, e.g. print it
+        print(curr_node)
+
+        for neighbor in graph[curr_node]:
+            if neighbor not in visited:
+                queue.append(neighbor)
+
+graph = {1: [2,3], 2:[1,4],3:[1, 4,5],4:[3,6], 5:[3], 6: [4]}
+node = 1
+
+bfs(graph, 1)
+
+def my_bfs(graph, start_node):
+    visited = {}
+    queue = deque([start_node])
+
+    while queue:
+        current_node = queue.popleft()
+        visited.add(current_node)
+        print(current_node)
+
+    for neighbor in graph[current_node]:
+        if neighbor not in visited:
+            queue.add(neighbor)
+
+## # DFS algo
+
+def DFS(graph, start):
+    visited = set()
+    stack = [start]
+
+    while stack:
+        curr = stack.pop()
+
+        if curr not in visited:
+            visited.add(curr)
+
+            # Do something with the current node
+            print(curr)
+
+            for neighbor in graph[curr]:
+                if neighbor not in visited:
+                    stack.append(neighbor)
+
+# Example usage
+graph = {
+    1: [2, 3],
+    2: [4, 5],
+    3: [6, 7],
+    4: [],
+    5: [],
+    6: [],
+    7: []
+}
+
+DFS(graph, 1)
+
+"""
+Given an array nums with n objects colored red, white, or blue, 
+sort them in-place so that objects of the same color are adjacent, 
+with the colors in the order red, white, and blue.
+
+We will use the integers 0, 1, and 2 to 
+represent the color red, white, and blue, respectively.
+
+You must solve this problem without using the library's sort function.
+"""
+
+def subset_sum(nodes, target):
+    n = len(nodes)
+    if target == 0:
+        return []
+    if n == 0 or target < nodes[0]:
+        return None
+    # include the first node
+    include = subset_sum(nodes[1:], target - nodes[0])
+    if include is not None:
+        return [nodes[0]] + include
+    else:
+    # exclude the first node
+        exclude = subset_sum(nodes[1:], target)
+        return exclude
+
+# Example usage
+nodes = [1, 2, 3, 4, 5]
+target = 8
+result = subset_sum(nodes, target)
+if result is None:
+    print("No subset found")
+else:
+    print("Subset with sum", target, "found:", result)
+
+
+"""Given an integer array nums of unique elements, return all possible
+subsets (the power set). The solution set must not contain duplicate subsets. 
+Return the solution in any order."""
+
+def subset_func(nums):
+    nums = sorted(nums)
+    if not nums:
+        return [[]]
+
+    subset_list = subset_func(nums[1:])
+
+    return subset_list + [[nums[0]] + subset for subset in subset_list]
+
+nums = [1,2,3,4]
+print(subset_func(nums))
+
+"Given a string s, return the longest palindromic substring in s."
+
+def longest_palindrome(s):
+    substrings = []
+    for i in range(len(s)):
+        for j in range(i + 1, len(s) + 1):
+            substrings.append(s[i:j])
+    palindromes = [sub for sub in substrings if sub == sub[::-1]]
+    if palindromes:
+        return max(palindromes, key=len)
+
+s = 'abccbaf'
+print(longest_palindrome(s))
