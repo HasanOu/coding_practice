@@ -192,47 +192,267 @@ target = 30
 print(binary_search(nums,target))
 print("***********")
 
-
 """
-An image is represented by an m x n integer grid image where image[i][j] represents the pixel value of the image.
+An image is represented by an m x n integer grid image where image[i][j] 
+represents the pixel value of the image.
 
-You are also given three integers sr, sc, and color. You should perform a flood fill on the image starting from the pixel image[sr][sc].
+You are also given three integers sr, sc, and color. 
+You should perform a flood fill on the image starting from the pixel image[sr][sc].
 
-To perform a flood fill, consider the starting pixel, plus any pixels connected 4-directionally to the starting pixel of the same color as the starting pixel, plus any pixels connected 4-directionally to those pixels (also with the same color), and so on. Replace the color of all of the aforementioned pixels with color.
+To perform a flood fill, consider the starting pixel, 
+plus any pixels connected 4-directionally to the starting pixel of the same color 
+as the starting pixel, plus any pixels connected 4-directionally to those pixels 
+(also with the same color), and so on. 
+Replace the color of all of the aforementioned pixels with color.
 
 Return the modified image after performing the flood fill.
 """
 
 def floodFill(image, sr, sc, newColor):
-    # Get the original color of the starting pixel
     oldColor = image[sr][sc]
 
-    # Check if the starting pixel has already been filled with the new color
     if oldColor == newColor:
         return image
 
-    # Define a helper function to perform the flood fill
-    def dfs(image, r, c):
-        # Check if the pixel is out of bounds or has the wrong color
+    def dfs(image, r, c, oldColor, newColor):
         num_rows = len(image)
         num_cols = len(image[0])
-        if r < 0 or r >= num_rows or c < 0 or c >= num_cols or image[r][c] != oldColor:
+
+        if (r < 0 or r >= num_rows) or (c < 0 or c >= num_cols) or image[r][c] != oldColor:
             return
 
-        # Fill the pixel with the new color
         image[r][c] = newColor
 
-        # Recursively fill the adjacent pixels
-        dfs(image, r - 1, c)
-        dfs(image, r + 1, c)
-        dfs(image, r, c - 1)
-        dfs(image, r, c + 1)
+        dfs(image, r + 1, c, oldColor, newColor)
+        dfs(image, r - 1, c, oldColor, newColor)
+        dfs(image, r, c + 1, oldColor, newColor)
+        dfs(image, r, c - 1, oldColor, newColor)
 
-    # Call the helper function on the starting pixel
-    dfs(image, sr, sc)
-
-    # Return the modified image
+    dfs(image, sr, sc, oldColor, newColor)
     return image
+
+image = [[3,1,1],[1,1,0],[1,0,1]]
+sr = 1
+sc = 1
+color = 2
+print(floodFill(image,1,1,2))
+print("***********")
+
+# ================================== First bad version ========================
+"""You are a product manager and currently leading a team to develop a new product. 
+Unfortunately, the latest version of your product fails the quality check. 
+Since each version is developed based on the previous version, 
+all the versions after a bad version are also bad.
+
+Suppose you have n versions [1, 2, ..., n] and you want to find out the first bad one, 
+which causes all the following  ones to be bad.
+
+You are given an API bool isBadVersion(version) which returns whether version is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API.
+"""
+
+def firstBadVersion(n):
+    # Initialize the search range
+    left = 1
+    right = n
+
+    # Perform binary search
+    while left < right:
+        # Calculate the mid-point
+        mid = int((left+right)/2)
+
+        # Check if the mid-point is a bad version
+        if isBadVersion(mid):
+            right = mid
+        else:
+            left = mid + 1
+
+    # Return the first bad version
+    return left
+
+ # ================================  Climbing Stairs =========================
+"""
+You are climbing a staircase. It takes n steps to reach the top.
+
+Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+"""
+
+def climbStairs(n):
+    # Initialize the memoization table
+    dp = [0] * (n + 1)
+
+    # Base cases
+    dp[0] = 0
+    dp[1] = 1
+    dp[2] = 2
+
+    # Fill in the memoization table using dynamic programming
+    for i in range(3, n + 1):
+        dp[i] = dp[i - 1] + dp[i - 2]
+
+    # Return the number of distinct ways to climb the staircase
+    return dp[n]
+
+
+# ================================= Longest Palindrome =======================
+"""
+Given a string s which consists of lowercase or uppercase letters, 
+return the length of the longest palindrome that can be built with those letters.
+
+Letters are case sensitive, for example, "Aa" is not considered a palindrome here.
+
+Input: s = "abccccdd"
+Output: 7
+Explanation: One longest palindrome that can be built is "dccaccd", whose length is 7.
+"""
+
+def Langestpalindrome(my_string):
+    dict = Counter(my_string)
+
+    max_length = 0
+    mid_val = 0
+    for (key, value) in dict.items():
+        if value % 2 == 0:
+            max_length += value
+        else:
+            max_length += value - 1
+            mid_val = 1
+
+    return max_length + mid_val
+
+my_string = "dccaaaccd"
+print(Langestpalindrome(my_string))
+print("*******")
+
+
+# ======================== Majority elements =============================
+"""Given an array nums of size n, return the majority element. The majority element is 
+the element that appears more than n/2 times. You may assume that the majority element always 
+exists in the array."""
+
+def MajorityElement(nums):
+    dict = defaultdict(int)
+
+    for num in nums:
+        dict[num] += 1
+
+    return max(dict.keys())
+
+print(MajorityElement([2, 2, 1, 1, 1, 2, 2]))
+print("***********")
+
+
+# ================================ contains duplicate =============================
+"""Given an integer array nums, return true if any value appears at least twice 
+in the array, and return false if every element is distinct."""
+def ContainsDuplicate(nums):
+    duplciate_dict = defaultdict(int)
+
+    for num in nums:
+        duplciate_dict[num]=1
+        if num in duplciate_dict.keys():
+            return False
+    return True
+
+# ============================ Meeting room =======================================
+"""Given an array of meeting time intervals intervals where 
+intervals[i] = [start_i, end_i], determine if a person could attend all meetings."""
+def MeetingRoom(intervals):
+    sorted_list = sorted(intervals, key=lambda x: x[0])
+    pair_list = list(zip(intervals, sorted_list[1:]))
+
+    for (first, second) in pair_list:
+        if first[1] > second[0]:
+            return False
+
+    return True
+
+intervals = [[0, 5], [5, 10], [10, 15]]
+print(MeetingRoom(intervals))
+print("*********")
+
+
+# ============================== backspace string compare =====================
+"""
+Given two strings s and t, return true if they are equal when both are typed 
+into empty text editors. '#' means a backspace character.
+
+Note that after backspacing an empty text, the text will continue empty.
+
+Input: s = "ab#c", t = "ad#c"
+Output: true
+Explanation: Both s and t become "ac".
+"""
+
+def Backspace_String_Compare(s, t):
+    new_s = []
+    for item in s:
+        new_s.append(item)
+        if item == "#":
+            new_s = new_s[:-2]
+
+    new_t = []
+    for item in t:
+        new_t.append(item)
+        if item == "#":
+            new_t = new_t[:-2]
+
+    if new_s == new_t:
+        return True
+    else:
+        return False
+
+s = "ab##"
+t = "c#d#"
+print(Backspace_String_Compare(s, t))
+print("*********")
+
+# =========================== Longest common prefix ==========================
+"""
+Write a function to find the longest common prefix string amongst an array of strings.
+
+If there is no common prefix, return an empty string "".
+"""
+
+def longest_common_prefix(strs):
+    min_size = min(list(map(len, strs)))
+    min_size = min([len(s) for s in strs])
+    count = 0
+    total_count = 0
+    for char in range(min_size):
+        for index in range(len(strs) - 1):
+            if strs[index][char] == strs[index + 1][char]:
+                count = max(1, count)
+            else:
+                count = 0
+        total_count += count
+    return strs[0][:total_count]
+
+
+strs = ["flower", "flow", "flight"]
+print(longest_common_prefix(strs))
+print("*******")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Merge Two Sorted Lists
 """
@@ -349,181 +569,6 @@ word2 = "caab"
 print(Validanagram(word1, word2))
 print("**************")
 
-
-def isBadVersion(version):
-    # This function is given in the problem statement
-    # and returns whether a version is bad
-    pass
-
-
-"""You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad.
-
-Suppose you have n versions [1, 2, ..., n] and you want to find out the first bad one, which causes all the following ones to be bad.
-
-You are given an API bool isBadVersion(version) which returns whether version is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API.
-"""
-
-
-def firstBadVersion(n):
-    # Initialize the search range
-    left = 1
-    right = n
-
-    # Perform binary search
-    while left < right:
-        # Calculate the mid-point
-        mid = left + (right - left) // 2
-
-        # Check if the mid-point is a bad version
-        if isBadVersion(mid):
-            right = mid
-        else:
-            left = mid + 1
-
-    # Return the first bad version
-    return left
-
-
-"""
-You are climbing a staircase. It takes n steps to reach the top.
-
-Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
-"""
-
-
-def climbStairs(n):
-    # Initialize the memoization table
-    dp = [0] * (n + 1)
-
-    # Base cases
-    dp[0] = 1
-    dp[1] = 1
-
-    # Fill in the memoization table using dynamic programming
-    for i in range(2, n + 1):
-        dp[i] = dp[i - 1] + dp[i - 2]
-
-    # Return the number of distinct ways to climb the staircase
-    return dp[n]
-
-
-"""
-Given a string s which consists of lowercase or uppercase letters, return the length of the longest palindrome that can be built with those letters.
-
-Letters are case sensitive, for example, "Aa" is not considered a palindrome here.
-
-Input: s = "abccccdd"
-Output: 7
-Explanation: One longest palindrome that can be built is "dccaccd", whose length is 7.
-"""
-
-
-def Langestpalindrome(my_string):
-    dict = Counter(my_string)
-
-    max_length = 0
-    mid_val = 0
-    for (key, value) in dict.items():
-        if value % 2 == 0:
-            max_length += value
-        else:
-            max_length += value - 1
-            mid_val = 1
-
-    return max_length + mid_val
-
-
-my_string = "dccaaaccd"
-print(Langestpalindrome(my_string))
-print("*******")
-
-"""Given an array nums of size n, return the majority element.
-
-The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
-
-nums = [2,2,1,1,1,2,2]
-"""
-
-
-def MajorityElement(nums):
-    dict = defaultdict(int)
-
-    for num in nums:
-        dict[num] += 1
-
-    return max(dict.keys())
-
-
-print(MajorityElement([2, 2, 1, 1, 1, 2, 2]))
-print("***********")
-
-"""Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct."""
-
-
-def ContainsDuplicate(nums):
-    new_list = []
-    for num in nums:
-        new_list.append(num)
-        if num in new_list:
-            return True
-
-    return False
-
-
-"""Given an array of meeting time intervals intervals where intervals[i] = [start_i, end_i], determine if a person could attend all meetings."""
-
-
-def MeetingRoom(intervals):
-    sorted_list = sorted(intervals, key=lambda x: x[0])
-    pair_list = list(zip(intervals, sorted_list[1:]))
-
-    for (first, second) in pair_list:
-        if first[1] > second[0]:
-            return False
-
-    return True
-
-
-intervals = [[0, 5], [5, 10], [10, 15]]
-print(MeetingRoom(intervals))
-print("*********")
-
-"""
-Given two strings s and t, return true if they are equal when both are typed into empty text editors. '#' means a backspace character.
-
-Note that after backspacing an empty text, the text will continue empty.
-
-Input: s = "ab#c", t = "ad#c"
-Output: true
-Explanation: Both s and t become "ac".
-"""
-
-
-def Backspace_String_Compare(s, t):
-    new_s = []
-    for item in s:
-        new_s.append(item)
-        if item == "#":
-            new_s = new_s[:-2]
-
-    new_t = []
-    for item in t:
-        new_t.append(item)
-        if item == "#":
-            new_t = new_t[:-2]
-
-    if new_s == new_t:
-        return True
-    else:
-        return False
-
-
-s = "ab##"
-t = "c#d#"
-print(Backspace_String_Compare(s, t))
-print("*********")
-
-
 # Alternative solution
 def backspaceCompare(s, t):
     # Define a function to simulate backspacing in a string
@@ -540,33 +585,6 @@ def backspaceCompare(s, t):
     # Use the backspace function to compare the modified strings
     return backspace(s) == backspace(t)
 
-
-"""
-Write a function to find the longest common prefix string amongst an array of strings.
-
-If there is no common prefix, return an empty string "".
-"""
-
-
-# 9-45  10
-def longest_common_prefix(strs):
-    min_size = min(list(map(len, strs)))
-    min_size = min([len(s) for s in strs])
-    count = 0
-    total_count = 0
-    for char in range(min_size):
-        for index in range(len(strs) - 1):
-            if strs[index][char] == strs[index + 1][char]:
-                count = max(1, count)
-            else:
-                count = 0
-        total_count += count
-    return strs[0][:total_count]
-
-
-strs = ["flower", "flow", "flight"]
-print(longest_common_prefix(strs))
-print("*******")
 
 # 10-10:15
 """
