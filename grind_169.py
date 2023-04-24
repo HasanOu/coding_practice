@@ -4,6 +4,8 @@ from collections import Counter
 from collections import defaultdict
 from typing import List
 
+import pandas as pd
+
 """Given an array of integers nums and an integer target, return indices of the
 two numbers such that they add up to target.
 
@@ -38,6 +40,7 @@ def twoSum(nums, target):
     # if no solution was found, return an empty array
     return []
 
+
 arr = [1, 5, 4, 4, 7, 9]
 output = twoSum(arr, 10)
 print(output)
@@ -55,6 +58,7 @@ An input string is valid if:
 s = "()[]{}"
 Output = True 
 """
+
 
 def IsValid(my_string):
     stack = []
@@ -75,6 +79,7 @@ def IsValid(my_string):
     else:
         return False
 
+
 my_string = "(({}))"
 print(IsValid(my_string))
 print("*******")
@@ -92,6 +97,7 @@ Output: 5
 Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
 Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
 """
+
 
 def buy_sell_profit(my_list):
     start = 0
@@ -113,6 +119,7 @@ def buy_sell_profit(my_list):
 
     return max_profit
 
+
 prices = [7, 1, 15, 3, 16, 4]
 print(buy_sell_profit(prices))
 print("*******")
@@ -120,6 +127,7 @@ print("*******")
 # ================================= Valid Palindrome ==============================
 """A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
 Given a string s, return true if it is a palindrome, or false otherwise."""
+
 
 def Validpalindrome(my_string):
     my_string = my_string.replace(" ", "").lower()
@@ -129,29 +137,32 @@ def Validpalindrome(my_string):
     else:
         return False
 
-def Validpalindrome2(my_string):
+
+def gpt_Validpalindrome(my_string):
     my_string = my_string.replace(" ", "").lower()
 
-    left, right = 0, len(s)-1
+    left, right = 0, len(s) - 1
     while left < right:
-        if my_string[left]!= my_string[right]:
+        if my_string[left] != my_string[right]:
             return False
-        left+=1
-        right-=1
+        left += 1
+        right -= 1
     return True
+
 
 # ================================ Valid Anagram ==========================
 def anagrams(word1, word2):
     return Counter(word1) == Counter(word2)
 
-def anagrams2(word1, word2):
+
+def gpt_anagrams(word1, word2):
     word1_freq = {}
 
     if len(word1) != len(word2):
         return False
 
     for char in word1:
-        word1_freq[s]= word1_freq.get(char,0)+1
+        word1_freq[s] = word1_freq.get(char, 0) + 1
 
     for char in word2:
         if char not in word1_freq.keys():
@@ -160,6 +171,7 @@ def anagrams2(word1, word2):
         if word1_freq[char] < 0:
             return False
     return True
+
 
 # ================================ Binary Search ========================
 """
@@ -172,24 +184,26 @@ nums = [-1,0,3,5,9,12], target = 9
 output: 4
 """
 
+
 def binary_search(nums, target):
     left = 0
-    right = len(nums)-1
+    right = len(nums) - 1
 
     while left <= right:
-        mid = int((left+right)/2)
+        mid = int((left + right) / 2)
 
         if nums[mid] == target:
             return mid
         elif nums[mid] < target:
-            left = mid+1
+            left = mid + 1
         else:
-            right = mid-1
+            right = mid - 1
     return -1
 
-nums = [-1,0,3,5,9,12]
+
+nums = [-1, 0, 3, 5, 9, 12]
 target = 30
-print(binary_search(nums,target))
+print(binary_search(nums, target))
 print("***********")
 
 """
@@ -207,6 +221,7 @@ Replace the color of all of the aforementioned pixels with color.
 
 Return the modified image after performing the flood fill.
 """
+
 
 def floodFill(image, sr, sc, newColor):
     oldColor = image[sr][sc]
@@ -231,11 +246,12 @@ def floodFill(image, sr, sc, newColor):
     dfs(image, sr, sc, oldColor, newColor)
     return image
 
-image = [[3,1,1],[1,1,0],[1,0,1]]
+
+image = [[3, 1, 1], [1, 1, 0], [1, 0, 1]]
 sr = 1
 sc = 1
 color = 2
-print(floodFill(image,1,1,2))
+print(floodFill(image, 1, 1, 2))
 print("***********")
 
 # ================================== First bad version ========================
@@ -250,6 +266,7 @@ which causes all the following  ones to be bad.
 You are given an API bool isBadVersion(version) which returns whether version is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API.
 """
 
+
 def firstBadVersion(n):
     # Initialize the search range
     left = 1
@@ -258,7 +275,7 @@ def firstBadVersion(n):
     # Perform binary search
     while left < right:
         # Calculate the mid-point
-        mid = int((left+right)/2)
+        mid = int((left + right) / 2)
 
         # Check if the mid-point is a bad version
         if isBadVersion(mid):
@@ -269,12 +286,14 @@ def firstBadVersion(n):
     # Return the first bad version
     return left
 
- # ================================  Climbing Stairs =========================
+
+# ================================  Climbing Stairs =========================
 """
 You are climbing a staircase. It takes n steps to reach the top.
 
 Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
 """
+
 
 def climbStairs(n):
     # Initialize the memoization table
@@ -285,7 +304,7 @@ def climbStairs(n):
     dp[1] = 1
     dp[2] = 2
 
-    # Fill in the memoization table using dynamic programming
+    # Fill in the memoization table using dynamic programming (this is exactly the fib)
     for i in range(3, n + 1):
         dp[i] = dp[i - 1] + dp[i - 2]
 
@@ -305,6 +324,7 @@ Output: 7
 Explanation: One longest palindrome that can be built is "dccaccd", whose length is 7.
 """
 
+
 def Langestpalindrome(my_string):
     dict = Counter(my_string)
 
@@ -319,15 +339,16 @@ def Langestpalindrome(my_string):
 
     return max_length + mid_val
 
+
 my_string = "dccaaaccd"
 print(Langestpalindrome(my_string))
 print("*******")
-
 
 # ======================== Majority elements =============================
 """Given an array nums of size n, return the majority element. The majority element is 
 the element that appears more than n/2 times. You may assume that the majority element always 
 exists in the array."""
+
 
 def MajorityElement(nums):
     dict = defaultdict(int)
@@ -337,28 +358,33 @@ def MajorityElement(nums):
 
     return max(dict.keys())
 
+
 print(MajorityElement([2, 2, 1, 1, 1, 2, 2]))
 print("***********")
-
 
 # ================================ contains duplicate =============================
 """Given an integer array nums, return true if any value appears at least twice 
 in the array, and return false if every element is distinct."""
+
+
 def ContainsDuplicate(nums):
     duplciate_dict = defaultdict(int)
 
     for num in nums:
-        duplciate_dict[num]=1
+        duplciate_dict[num] = 1
         if num in duplciate_dict.keys():
             return False
     return True
 
+
 # ============================ Meeting room =======================================
 """Given an array of meeting time intervals intervals where 
 intervals[i] = [start_i, end_i], determine if a person could attend all meetings."""
+
+
 def MeetingRoom(intervals):
     sorted_list = sorted(intervals, key=lambda x: x[0])
-    pair_list = list(zip(intervals, sorted_list[1:]))
+    pair_list = list(zip(sorted_list, sorted_list[1:]))
 
     for (first, second) in pair_list:
         if first[1] > second[0]:
@@ -366,10 +392,10 @@ def MeetingRoom(intervals):
 
     return True
 
+
 intervals = [[0, 5], [5, 10], [10, 15]]
 print(MeetingRoom(intervals))
 print("*********")
-
 
 # ============================== backspace string compare =====================
 """
@@ -382,6 +408,7 @@ Input: s = "ab#c", t = "ad#c"
 Output: true
 Explanation: Both s and t become "ac".
 """
+
 
 def Backspace_String_Compare(s, t):
     new_s = []
@@ -400,6 +427,7 @@ def Backspace_String_Compare(s, t):
         return True
     else:
         return False
+
 
 def backspaceCompare(s, t):
     # https://leetcode.com/problems/backspace-string-compare/
@@ -423,8 +451,9 @@ def backspaceCompare(s, t):
     else:
         return False
 
+
 # Alternative solution
-def backspaceCompare2(s, t):
+def gpt_backspaceCompare(s, t):
     # Define a function to simulate backspacing in a string
     def backspace(s):
         stack = []
@@ -438,6 +467,7 @@ def backspaceCompare2(s, t):
 
     # Use the backspace function to compare the modified strings
     return backspace(s) == backspace(t)
+
 
 s = "abc"
 t = "ad#c"
@@ -471,8 +501,9 @@ def longest_common_prefix(strs):
                 count = 0
                 temp = -1
                 break
-        total_count +=count
+        total_count += count
     return strs[0][:total_count]
+
 
 strs = ["flowerrr", "flowgrrr", "flowirrrht"]
 print(longest_common_prefix(strs))
@@ -488,16 +519,18 @@ nums = [2,2,1]
 output = 1
 """
 
+
 def single_num(nums):
     freq_dict = defaultdict(int)
     for num in nums:
         freq_dict[num] += 1
 
-    for (key,value) in freq_dict.items():
+    for (key, value) in freq_dict.items():
         if value == 1:
-             return key
+            return key
 
-nums = [4,1,2,1,2]
+
+nums = [4, 1, 2, 1, 2]
 print(single_num(nums))
 print("***********")
 
@@ -510,6 +543,7 @@ nums = [0,1,0,3,12]
 output = [1,3,12,0,0]
 """
 
+
 # complexity O(n^2)
 def move_zeros(nums):
     count = 0
@@ -518,6 +552,7 @@ def move_zeros(nums):
             nums.append(0)
             nums.remove(0)
     return nums
+
 
 nums = [0, 0, 1, 0, 2, 0, 3]
 print(move_zeros(nums))
@@ -530,6 +565,7 @@ nums = [3,0,1]
 output = 2
 """
 
+
 def missing_num(nums: List) -> int:
     freq_dict = defaultdict(int)
 
@@ -540,13 +576,14 @@ def missing_num(nums: List) -> int:
         if freq_dict[num] == 0:
             return num
 
-nums = [9,6,4,2,3,5,7,0,1]
+nums = [9, 6, 4, 2, 3, 5, 7, 0, 1]
 output = 2
 print(missing_num(nums))
 print("********")
 
 # ========================== Palindrome Number ===========================
 """Given an integer x, return true if x is a palindrome, and false otherwise."""
+
 
 def palindrome(x: List) -> bool:
     my_list = list(str(x))
@@ -558,9 +595,11 @@ def palindrome(x: List) -> bool:
     else:
         return False
 
+
 # ================================ Square of sorted array ========================
 """Given an integer array nums sorted in non-decreasing order, 
 return an array of the squares of each number sorted in non-decreasing order."""
+
 
 def sortedSquares(nums):
     positive_list = [x ** 2 for x in nums if x >= 0]
@@ -590,9 +629,416 @@ def sortedSquares(nums):
 
     return new_list
 
+
 nums = [-7, -3, 2, 3, 11]
 print(sortedSquares(nums))
 print("*******")
+
+# ========================================= Maximum subarray ================
+"""
+Given an integer array nums, find the subarray with the largest sum, 
+and return its sum.
+Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+Output: 6
+"""
+
+def MaximumSubarray(nums):
+    temp_sum = 0
+    max_sum = 0
+    for num in nums:
+        temp_sum += num
+        if temp_sum < 0:
+            temp_sum = 0
+        else:
+            max_sum = max(max_sum, temp_sum)
+    return max_sum
+
+
+nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+print(MaximumSubarray(nums))
+print("*********")
+
+# ================================= Insert Interval ==========================
+"""
+You are given an array of non-overlapping intervals intervals where 
+intervals[i] = [starti, endi] represent the start and the end of the ith 
+interval and intervals is sorted in ascending order by starti. 
+You are also given an interval newInterval = [start, end] that 
+represents the start and end of another interval.
+
+Insert newInterval into intervals such that intervals is still sorted in ascending 
+order by starti and intervals still does not have any overlapping intervals (merge overlapping intervals if necessary).
+
+Return intervals after the insertion.
+
+intervals = [[1,3],[6,9]], newInterval = [2,5]
+Output: [[1,5],[6,9]] 
+"""
+
+def InsertInterval(intervals, new_interval):
+    res = []
+    i = 0
+
+    while i < len(intervals) and intervals[i][1] < new_interval[0]:
+        res.append(intervals[i])
+        i += 1
+
+    while i < len(intervals) and intervals[i][1] > new_interval[0] and intervals[i][0] <= new_interval[1]:
+        new_interval[0] = min(new_interval[0], intervals[i][0])
+        new_interval[1] = max(new_interval[1], intervals[i][1])
+        i += 1
+
+    res.append(new_interval)
+
+    while i < len(intervals):
+        res.append(intervals[i])
+        i += 1
+
+    return res
+
+intervals = [[1, 2], [3, 5], [6, 7], [8, 10], [12, 16]]
+newInterval = [4, 8]
+print(InsertInterval(intervals, newInterval))
+print("**********")
+
+# =============================  01 Matrix ==============================
+"""Given an m by n binary matrix mat, return the 
+distance of the nearest 0 for each cell. The distance between two 
+adjacent cells is 1."""
+
+# ============================= Longest substrig without repeating character =============
+"""
+Given a string s, find the length of the longest substring without repeating 
+characters.
+
+s = "abcabcbb"
+output = 3
+"""
+
+
+def longest_sub(string):
+    if string == " ":
+        return 0
+
+    my_list = list(string)
+
+    temp_string = []
+    max_size = 0
+    for string in my_list:
+        if string not in temp_string:
+            temp_string.append(string)
+        else:
+            max_size = max(max_size, len(temp_string))
+            temp_string = [string]
+        max_size = max(max_size, len(temp_string))
+    return max_size
+
+
+s = "abba"
+print(longest_sub(s))
+print("********")
+
+# =============================== 3 SUM ==================================
+"""
+Given an array nums of n integers, find all unique triplets in the 
+array which gives the sum of zero. The solution set must not contain 
+duplicate triplets.
+    Args:
+        nums (List[int]): The input list of integers.
+    Returns:
+        List[List[int]]: The list of unique triplets that sum to zero.
+"""
+
+
+def threeSum(nums):
+    nums.sort()
+    result = []
+
+    for i in range(len(nums) - 2):
+        left, right = i + 1, len(nums) - 1
+
+        while left < right:
+            total = nums[i] + nums[left] + nums[right]
+            if total < 0:
+                left += 1
+            elif total > 0:
+                right -= 1
+            else:
+                result.append([nums[i], nums[left], nums[right]])
+                left += 1
+                right -= 1
+
+    new_result = []
+    for item in result:
+        if item not in new_result:
+            new_result.append(item)
+
+    return new_result
+
+
+nums = [-1, 0, 1, 2, -1, -4]
+print(threeSum(nums))
+print("**********")
+
+# ========================= coin change ========================
+"""You are given an integer array coins representing coins of different 
+denominations and an integer amount representing a total amount of money.
+
+Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
+
+You may assume that you have an infinite number of each kind of coin.
+coins = [1,2,5], amount = 11
+"""
+
+def coin_change(coins: List[int], amount: int) -> int:
+    # Create a table to store the fewest number of coins needed for each sub-amount
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
+
+    # Iterate through each coin and each sub-amount, updating the fewest number of coins
+    # needed to make up that amount if a better solution is found.
+    for i in range(2, amount + 1):
+        for coin in coins:
+            if i - coin >= 0:
+                dp[i] = min(dp[i], dp[i - coin] + 1)
+    return dp[amount]
+
+
+coins = [1, 2, 5]
+amount = 24
+print(coin_change(coins, amount))
+print("**********")
+
+# ========================================= productExceptSelf =================================
+"""
+Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
+
+The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+
+You must write an algorithm that runs in O(n) time and without using the division operation.
+"""
+
+def productExceptSelf(nums):
+    new_list = []
+    for index in range(len(nums)):
+        left = 1
+        right = 1
+
+        start = 0
+        while start < index:
+            left = left * nums[start]
+            start += 1
+
+        end = len(nums) - 1
+        while end > index:
+            right = right * nums[end]
+            end -= 1
+
+        new_list.append(left * right)
+
+    return new_list
+
+nums = [1, 2, 3, 4]
+print(productExceptSelf(nums))
+print("*********")
+
+# ============================= Number of Islands ===========================
+def numIslands(grid):
+    num_islands = 0
+    num_rows = len(grid)
+    num_cols = len(grid[0])
+
+    def dfs(i, j):
+        if i < 0 or i >= num_rows or j < 0 or j >= num_cols or grid[i][j] == '0':
+            return
+
+        grid[i][j] = '0'
+
+        dfs(i + 1, j)
+        dfs(i, j + 1)
+        dfs(i - 1, j)
+        dfs(i, j - 1)
+
+    for i in range(num_rows):
+        for j in range(num_cols):
+            if grid[i][j] == '1':
+                num_islands += 1
+                dfs(i, j)
+    return num_islands
+
+def num_island(graph):
+    if not graph:
+        return 0
+
+    num_rows = len(graph)
+    num_cols = len(graph[0])
+
+    num_islands = 0
+    node_visited = []
+
+    visitSet= set()
+    def dfs(graph, node):
+        visitSet.add(node)
+        for v in graph[node]:
+            if v not in visitSet:
+                node_visited.append(v)
+                dfs(graph, v)
+
+    for i in range(len(graph)):
+        if i not in node_visited:
+            temp = node_visited.copy()
+            dfs(graph, i)
+            if node_visited != temp:
+                num_islands+=1
+
+    return num_islands
+
+graph = {
+    0: [1, 5],
+    1: [0, 2, 6],
+    2: [1],
+    3: [],
+    4: [],
+    5: [0, 6, 10],
+    6: [1, 5, 11],
+    7: [],
+    8: [],
+    9: [],
+    10: [5],
+    11: [6],
+    12: [13],
+    13: [],
+    14: []
+}
+
+print(num_island(graph))
+
+# ================================ Rotting Oranges ==========================
+
+
+# ================================ Search in Rotated Sorted Array ===============
+"""
+There is an integer array nums sorted in ascending order (with distinct values).
+
+Prior to being passed to your function, nums is possibly rotated at an unknown 
+pivot index k (1 <= k < nums.length) such that the resulting array 
+is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). 
+For example, [0,1,2,4,5,6,7] might be rotated at pivot 
+index 3 and become [4,5,6,7,0,1,2].
+
+Given the array nums after the possible rotation and an integer target, return the 
+index of target if it is in nums, or -1 if it is not in nums.
+
+You must write an algorithm with O(log n) runtime complexity.
+nums = [4,5,6,7,0,1,2]
+target = 0 
+output = 4
+"""
+
+
+def rotatedarraysearch(nums, target):
+    left = 0
+    right = len(nums) - 1
+
+    mid = (left + right) // 2
+
+    if nums[mid] == target:
+        return mid
+
+    while left <= right:
+        mid = (left + right) // 2
+
+        if nums[mid] == target:
+            return mid
+
+        # the left side is sorted and the target is in the left side
+        if nums[left] <= nums[mid]:
+            if nums[left] <= target <= nums[mid]:
+                right = mid - 1
+            else:
+                left = mid + 1
+        else:
+            if nums[mid] <= target <= nums[right]:
+                left = mid + 1
+            else:
+                right = mid - 1
+    return -1
+
+
+nums = [4, 5, 6, 7, 0, 1, 2]
+target = 0
+print(rotatedarraysearch(nums, target))
+print("********")
+
+# ========================== Combination Sum =========================================
+
+"""
+Given an array of distinct integers candidates and a target integer target, 
+return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.
+The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the
+frequency
+of at least one of the chosen numbers is different.
+The test cases are generated such that the number of unique combinations that sum up to target is less than 150 combinations for the given input."""
+
+
+def combinationsum(candidates, target):
+    def backtrack(target, path):
+        if target < 0:
+            return
+        if target == 0:
+            res.append(path)
+            return
+        for num in candidates:
+            backtrack(target - num, path + [num])
+
+    res = []
+    candidates.sort()
+    backtrack(target, [])
+    return res
+
+candidates = [2, 3, 6, 7]
+target = 7
+print(combinationsum(candidates, target))
+print("******")
+
+# =================================== Permutation =========================
+"""
+Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
+nums = [1,2,3]
+output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+"""
+
+# ================================= Merge intervals ============================
+"""
+Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.
+intervals = [[1,3],[2,6],[8,10],[15,18]]
+output = [[1,6],[8,10],[15,18]]
+"""
+
+def merge_intervals(intervals):
+    intervals.sort(key=lambda x: x[0])  # sort intervals by their start time
+    merged = [intervals[0]]  # create a new list with the first interval
+    for interval in intervals[1:]:
+        if interval[0] <= merged[-1][1]:  # check if the interval overlaps with the last interval in the merged list
+            merged[-1][1] = max(interval[1], merged[-1][1])  # update the end time of the last interval in the merged list
+        else:
+            merged.append(interval)  # add the interval to the merged list
+    return merged
+
+intervals = [[1, 3], [2, 6], [8, 10], [9, 11], [13, 15], [14,16], [15, 18]]
+print(merge_intervals(intervals))
+print("*********")
+
+# ================================ Time Based Key-value store =====================
+
+# ============================ Account merge ===========================
+"""
+Given a list of accounts where each element accounts[i] is a list of strings, where the first element accounts[i][0] is a name, and the rest of the elements are emails representing emails of the account.
+
+Now, we would like to merge these accounts. Two accounts definitely belong to the same person if there is some common email to both accounts. Note that even if two accounts have the same name, they may belong to different people as people could have the same name. A person can have any number of accounts initially, but all of their accounts definitely have the same name.
+
+After merging the accounts, return the accounts in the following format: the first element of each account is the name, and the rest of the elements are emails in sorted order. The accounts themselves can be returned in any order.
+"""
 
 # Merge Two Sorted Lists
 """
@@ -605,6 +1051,7 @@ Return the head of the merged linked list.
 Input: list1 = [1,2,4], list2 = [1,3,4]
 Output: [1,1,2,3,4,4]
 """
+
 
 def MergeLists(list1, list2):
     if len(list1) == 0:
@@ -624,21 +1071,14 @@ def MergeLists(list1, list2):
 
     return MergeList + list1 + list2
 
-
 list1 = [1, 2, 4]
 list2 = [2, 3, 5, 8]
 print(MergeLists(list1, list2))
 print("*****")
 
-
-
-
-
-
 """
 Given the root of a binary tree, invert the tree, and return its root.
 """
-
 
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
@@ -664,7 +1104,6 @@ def invertTree(root):
     return root
 
 
-
 """
 Given two strings s and t, return true if t is an anagram of s, and false otherwise.
 
@@ -680,7 +1119,6 @@ def Validanagrams(word1, word2):
 
 
 import copy
-
 
 def Validanagram(word1, word2):
     word1 = list(word1)
@@ -708,7 +1146,6 @@ word1 = "aabc"
 word2 = "caab"
 print(Validanagram(word1, word2))
 print("**************")
-
 
 # 10-10:15
 """
@@ -779,70 +1216,6 @@ num = 121
 print(Palindrome_num(num))
 print("********")
 
-# 11:15-11:30
-"""
-Given an integer array nums, find the subarray with the largest sum, and return its sum.
-Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
-Output: 6
-"""
-
-
-def MaximumSubarray(nums):
-    temp_sum = 0
-    max_sum = 0
-    for num in nums:
-        temp_sum += num
-        if temp_sum < 0:
-            temp_sum = 0
-        else:
-            max_sum = max(max_sum, temp_sum)
-    return max_sum
-
-
-nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
-print(MaximumSubarray(nums))
-print("*********")
-
-# 11:30-11:45
-"""
-You are given an array of non-overlapping intervals intervals where intervals[i] = [starti, endi] represent the start and the end of the ith interval and intervals is sorted in ascending order by starti. You are also given an interval newInterval = [start, end] that represents the start and end of another interval.
-
-Insert newInterval into intervals such that intervals is still sorted in ascending order by starti and intervals still does not have any overlapping intervals (merge overlapping intervals if necessary).
-
-Return intervals after the insertion.
-
-intervals = [[1,3],[6,9]], newInterval = [2,5]
-Output: [[1,5],[6,9]] 
-"""
-
-
-def InsertInterval(intervals, new_interval):
-    res = []
-    i = 0
-
-    while i < len(intervals) and intervals[i][1] < new_interval[0]:
-        res.append(intervals[i])
-        i += 1
-
-    while i < len(intervals) and intervals[i][1] > new_interval[0] and intervals[i][0] <= new_interval[1]:
-        new_interval[0] = min(new_interval[0], intervals[i][0])
-        new_interval[1] = max(new_interval[1], intervals[i][1])
-        i += 1
-
-    res.append(new_interval)
-
-    while i < len(intervals):
-        res.append(intervals[i])
-        i += 1
-
-    return res
-
-
-intervals = [[1, 2], [3, 5], [6, 7], [8, 10], [12, 16]]
-newInterval = [4, 8]
-print(InsertInterval(intervals, newInterval))
-print("**********")
-
 """
 Given an m x n binary matrix mat, return the distance of the nearest 0 for each cell.
 
@@ -853,7 +1226,6 @@ The distance between two adjacent cells is 1.
 Given a string s, find the length of the longest
 substring without repeating characters.
 """
-
 
 def longestsubstring(my_str):
     my_list = list(my_str)
@@ -880,55 +1252,6 @@ print(longestsubstring(my_str))
 print("*******")
 
 """
-Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
-
-Notice that the solution set must not contain duplicate triplets.
-nums = [-1,0,1,2,-1,-4]
-"""
-
-
-def threeSum(nums):
-    """
-    Given an array nums of n integers, find all unique triplets in the array
-    which gives the sum of zero. The solution set must not contain duplicate triplets.
-
-    Args:
-        nums (List[int]): The input list of integers.
-
-    Returns:
-        List[List[int]]: The list of unique triplets that sum to zero.
-    """
-    nums.sort()
-    result = []
-
-    for i in range(len(nums) - 2):
-
-        left, right = i + 1, len(nums) - 1
-
-        while left < right:
-            total = nums[i] + nums[left] + nums[right]
-            if total < 0:
-                left += 1
-            elif total > 0:
-                right -= 1
-            else:
-                result.append([nums[i], nums[left], nums[right]])
-                left += 1
-                right -= 1
-
-    new_result = []
-    for item in result:
-        if item not in new_result:
-            new_result.append(item)
-
-    return new_result
-
-
-nums = [-1, 0, 1, 2, -1, -4]
-print(threeSum(nums))
-print("**********")
-
-"""
 Evaluate Reverse Polish Notation
 You are given an array of strings tokens that represents an arithmetic expression in a Reverse Polish Notation.
 Evaluate the expression. Return an integer that represents the value of the expression.
@@ -938,133 +1261,6 @@ Evaluate the expression. Return an integer that represents the value of the expr
 def ReversePolishNotation():
     pass
 
-
-"""
-Course schedule
-There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates 
-that you must take course bi first if you want to take course ai.
-
-    For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
-
-Return true if you can finish all courses. Otherwise, return false. 
-"""
-
-"""You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
-
-Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
-
-You may assume that you have an infinite number of each kind of coin.
-coins = [1,2,5], amount = 11
-"""
-
-def coin_change(coins: List[int], amount: int) -> int:
-    dp = [0] * (amount + 1)
-
-    dp[0] = 0
-    dp[1] = 1
-    dp[2] = 1
-    dp[3] = 2
-    dp[4] = 2
-    dp[5] = 1
-
-    for val in range(6, amount + 1):
-        dp[val] = min(dp[val - 1], dp[val - 2], dp[val - 5]) + 1
-    return dp[amount]
-
-# alternative solution
-
-def gpt_coin_change(coins: List[int], amount: int) -> int:
-    # Create a table to store the fewest number of coins needed for each sub-amount
-    dp = [float('inf')] * (amount + 1)
-    dp[0] = 0
-
-    # Iterate through each coin and each sub-amount, updating the fewest number of coins
-    # needed to make up that amount if a better solution is found.
-    for coin in coins:
-        for i in range(coin, amount + 1):
-            dp[i] = min(dp[i], dp[i - coin] + 1)
-
-coins = [1, 2, 5]
-amount = 24
-print(coin_change(coins, amount))
-print("**********")
-
-"""
-Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
-
-The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
-
-You must write an algorithm that runs in O(n) time and without using the division operation.
-"""
-
-def productExceptSelf(nums):
-    new_list = []
-    for index in range(len(nums)):
-        left = 1
-        right = 1
-
-        start = 0
-        while start < index:
-            left = left*nums[start]
-            start+=1
-
-        end = len(nums) - 1
-        while end > index:
-            right = right*nums[end]
-            end-=1
-
-        new_list.append(left*right)
-
-    return new_list
-
-nums = [1,2,3,4]
-print(productExceptSelf(nums))
-print("*********")
-
-"""
-There is an integer array nums sorted in ascending order (with distinct values).
-
-Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k (1 <= k < nums.length) 
-such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). 
-For example, [0,1,2,4,5,6,7] might be rotated at pivot index 3 and become [4,5,6,7,0,1,2].
-
-Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
-
-You must write an algorithm with O(log n) runtime complexity.
-"""
-
-def rotatedarraysearch(nums, target):
-    left = 0
-    right = len(nums)-1
-
-    mid = (left+right)//2
-
-    if nums[mid] == target:
-        return mid
-
-    while left <= right:
-        mid = (left+right)//2
-
-        if nums[mid] == target:
-            return mid
-
-        # the left side is sorted and the target is in the left side
-        if nums[left] <= nums[mid]:
-            if nums[left] <= target <= nums[mid]:
-                right = mid - 1
-            else:
-                left = mid + 1
-        else:
-            if nums[mid] <= target <= nums[right]:
-                left = mid + 1
-            else:
-                right = mid -1
-    return -1
-
-nums = [4,5,6,7,0,1,2]
-target = 0
-print(rotatedarraysearch(nums, target))
-print("********")
 
 """
 Implement a first in first out (FIFO) queue using only two stacks. The implemented queue should support all the functions of a normal queue (push, peek, pop, and empty).
@@ -1131,7 +1327,6 @@ Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,
 (blue section) the container can contain is 49.
 """
 
-
 def container_with_most_water(arr):
     max_area = 0
     left = 0
@@ -1161,7 +1356,6 @@ Notice that the solution set must not contain duplicate triplets.
 Input: nums = [-1,0,1,2,-1,-4]
 Output: [[-1,-1,2],[-1,0,1]]
 """
-
 
 def threesum(arr, target):
     hashmap = {}
@@ -1200,7 +1394,6 @@ Output: 2
 Explanation: The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
 """
 
-
 def threesum_closest(arr, target):
     min_diff = float('inf')
 
@@ -1237,7 +1430,6 @@ You may return the answer in any order.
 Input: nums = [1,0,-1,1,-2,2], target = 0
 Output: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
 """
-
 
 def foursum(arr, target):
     arr.sort()
@@ -1279,7 +1471,6 @@ extra memory.
 nums = [0,0,1,1,1,2,2,3,3,4]
 5, nums = [0,1,2,3,4,_,_,_,_,_]
 """
-
 
 def remove_duplicates_from_sorted_array(arr):
     new_array = []
@@ -1356,7 +1547,6 @@ Output: 4
 Input: nums = [4,5,6,7,0,1,2], target = 3
 Output: -1
 """
-
 
 def search_in_rotated_sorted_array(nums, target):
     # Initilize two pointers
@@ -1489,7 +1679,6 @@ Output: 6
 Explanation: [4,-1,2,1] has the largest sum = 6.
 """
 
-
 def Maximum_Subarray(arr):
     max_sum = 0
     temp_sum = 0
@@ -1521,7 +1710,6 @@ Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
 Output: [[1,6],[8,10],[15,18]]
 Explanation: Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].
 """
-
 
 def merge_interval(arr):
     arr.sort(key=lambda x: x[0])
@@ -1590,7 +1778,6 @@ Explanation: We will visit "google.mail.com" 900 times, "yahoo.com" 50 times, "i
 For the subdomains, we will visit "mail.com" 900 + 1 = 901 times, "com" 900 + 50 + 1 = 951 times, and "org" 5 times.
 """
 
-
 def website_domain(cpdomains):
     ans = dict()
     for domain in cpdomains:
@@ -1634,7 +1821,6 @@ Output: 5
 Explanation: Your function can return either index number 1 where the peak element is 2, or index number 5 where the 
 peak element is 6.
 """
-
 
 def peak(arr):
     start = 0
@@ -1859,28 +2045,7 @@ def canFinish(numCourses, prerequisites):
 
     return True
 
-
 print(canFinish(3, [[1, 2], [2, 3], [3, 4], [4, 1], [4, 2], [2, 1]]))
-
-
-def productExceptSelf(nums):
-    list_num = []
-    for i in range(len(nums)):
-        prod = 1
-        count = 0
-        for number in nums:
-            if i != count:
-                prod *= number
-            count += 1
-
-        list_num.append(prod)
-
-    return list_num
-
-
-# nums = [1, 2, 3, 4]
-# print(productExceptSelf(nums))
-
 
 def canPartition(nums):
     print("******")
@@ -2338,36 +2503,6 @@ nums = [1, 2, 4, 3, 5, 6, 7, 9, 12]
 dict_nums = longestConsecutive(nums)
 print(dict_nums)
 
-# 10-10:30
-# ========================== Combination Sum =========================================
-
-"""
-Given an array of distinct integers candidates and a target integer target, 
-return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.
-The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the
-frequency
-of at least one of the chosen numbers is different.
-The test cases are generated such that the number of unique combinations that sum up to target is less than 150 combinations for the given input."""
-
-def combinationsum(candidates, target):
-    def backtrack(target, path):
-        if target < 0:
-            return
-        if target ==0:
-            res.append(path)
-            return
-        for num in candidates:
-            backtrack(target-num, path+[num])
-
-    res =[]
-    candidates.sort()
-    backtrack(target, [])
-    return res
-
-candidates = [2,3,6,7]
-target = 7
-print(combinationsum(candidates, target))
-print("******")
 
 # """
 # Given an array nums of distinct integers, return all the possible permutations.
@@ -2436,18 +2571,17 @@ print("******")
 
 
 def fib_func(n):
-
-    fib = [0]*(n+1)
+    fib = [0] * (n + 1)
     fib[0] = 1
     fib[1] = 1
 
-    for n in range(2,n):
-        fib[n] = fib[n-1]+fib[n-2]
+    for n in range(2, n):
+        fib[n] = fib[n - 1] + fib[n - 2]
 
     return fib[n]
 
-print(fib_func(10))
 
+print(fib_func(10))
 
 """
 Given a list of accounts where each element accounts[i] is a list of strings, 
@@ -2462,6 +2596,7 @@ The accounts themselves can be returned in any orde
 """
 
 from collections import defaultdict
+
 
 def merge_accounts(accounts):
     # Create a defaultdict to store emails and corresponding names
@@ -2516,11 +2651,14 @@ def merge_accounts(accounts):
 
     return merged_accounts
 
-accounts = [["John","johnsmith@mail.com","john_newyork@mail.com"],["John","johnsmith@mail.com","john00@mail.com"],["Mary","mary@mail.com"],["John","johnnybravo@mail.com"]]
+
+accounts = [["John", "johnsmith@mail.com", "john_newyork@mail.com"], ["John", "johnsmith@mail.com", "john00@mail.com"],
+            ["Mary", "mary@mail.com"], ["John", "johnnybravo@mail.com"]]
 print(merge_accounts(accounts))
 
 # BFS implementation
 from collections import deque
+
 
 def bfs(graph, start_node):
     visited = set()
@@ -2537,10 +2675,12 @@ def bfs(graph, start_node):
             if neighbor not in visited:
                 queue.append(neighbor)
 
-graph = {1: [2,3], 2:[1,4],3:[1, 4,5],4:[3,6], 5:[3], 6: [4]}
+
+graph = {1: [2, 3], 2: [1, 4], 3: [1, 4, 5], 4: [3, 6], 5: [3], 6: [4]}
 node = 1
 
 bfs(graph, 1)
+
 
 def my_bfs(graph, start_node):
     visited = {}
@@ -2554,6 +2694,7 @@ def my_bfs(graph, start_node):
     for neighbor in graph[current_node]:
         if neighbor not in visited:
             queue.add(neighbor)
+
 
 ## # DFS algo
 
@@ -2573,6 +2714,7 @@ def DFS(graph, start):
             for neighbor in graph[curr]:
                 if neighbor not in visited:
                     stack.append(neighbor)
+
 
 # Example usage
 graph = {
@@ -2598,6 +2740,7 @@ represent the color red, white, and blue, respectively.
 You must solve this problem without using the library's sort function.
 """
 
+
 def subset_sum(nodes, target):
     n = len(nodes)
     if target == 0:
@@ -2609,9 +2752,10 @@ def subset_sum(nodes, target):
     if include is not None:
         return [nodes[0]] + include
     else:
-    # exclude the first node
+        # exclude the first node
         exclude = subset_sum(nodes[1:], target)
         return exclude
+
 
 # Example usage
 nodes = [1, 2, 3, 4, 5]
@@ -2622,10 +2766,10 @@ if result is None:
 else:
     print("Subset with sum", target, "found:", result)
 
-
 """Given an integer array nums of unique elements, return all possible
 subsets (the power set). The solution set must not contain duplicate subsets. 
 Return the solution in any order."""
+
 
 def subset_func(nums):
     nums = sorted(nums)
@@ -2636,10 +2780,12 @@ def subset_func(nums):
 
     return subset_list + [[nums[0]] + subset for subset in subset_list]
 
-nums = [1,2,3,4]
+
+nums = [1, 2, 3, 4]
 print(subset_func(nums))
 
 "Given a string s, return the longest palindromic substring in s."
+
 
 def longest_palindrome(s):
     substrings = []
@@ -2650,5 +2796,384 @@ def longest_palindrome(s):
     if palindromes:
         return max(palindromes, key=len)
 
+
 s = 'abccbaf'
 print(longest_palindrome(s))
+
+# =========================== Cheapest Flights Within K Stops ================
+"""
+There are n cities connected by some number of flights. 
+You are given an array flights where flights[i] = [fromi, toi, pricei] indicates 
+that there is a flight from city fromi to city toi with cost pricei.
+You are also given three integers src, dst, and k, return the cheapest price from src to dst with at most k stops. 
+If there is no such route, return -1.
+"""
+
+from collections import defaultdict
+
+
+def cheap_flights(flights, src, des, k):
+    n = len(flights)
+    # construct adjList graph
+    graph = {}
+    for u in range(n):
+        graph[u] = []
+    for u, v, price in flights:
+        graph[u].append((v, price))
+
+    dist = defaultdict(int)
+
+    # recursive DFS
+    visited_set = set()
+
+    def dfs(node, node_tracker, distance_tracker):
+        visited_set.add(node)
+        for neighbor, weight in graph[node]:
+            if neighbor not in visited_set:
+                node_tracker += 1
+                dist[neighbor, node_tracker] = distance_tracker + weight
+                dfs(neighbor, node_tracker, distance_tracker + weight)
+
+    dfs(src, 0, 0)
+
+    return dist
+
+
+# graph = {
+#     0: [(1, 1), (2, 2)],
+#     1: [(3, 5), (4, 1)],
+#     2: [(4, 1), (5, 2)],
+#     3: [],
+#     4: [],
+#     5: []}
+
+flights = [[0, 1, 100], [1, 2, 100], [1, 3, 600], [2, 3, 200]]
+src = 0
+dst = 3
+k = 1
+
+dist = cheap_flights(flights, src, dst, k)
+print(dist)
+
+# ==================================== Course schedule =======================
+"""There are a total of numCourses courses you have to take, labeled from 0 to 
+numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] 
+indicates that you must take course bi first if you want to take course ai.
+For example, the pair [0, 1], 
+indicates that to take course 0 you have to first take course 1.
+Return true if you can finish all courses. Otherwise, return false."""
+
+from collections import defaultdict
+
+
+def can_finish(numCourses, prerequisites):
+    # create a n adjacency list to represent the graph
+    graph = defaultdict(list)
+
+    for node in range(numCourses):
+        graph[node] = []
+
+    for (u, v) in prerequisites:
+        graph[v].append(u)
+
+    # visitSet = all courses along the curr FS path
+    def dfs(crs):
+        if crs in visitSet:
+            return False  # in this case there is a cycle
+        if graph[crs] == []:
+            return True  # return true we can finish this course
+        visitSet.add(crs)  # add this course to the list
+        for neighbor in graph[crs]:
+            if dfs(neighbor) == False:
+                return False
+
+        return True
+
+    for crs in range(numCourses):
+        visitSet = set()
+        if not dfs(crs):
+            return False
+    return True
+
+
+numCourses = 4
+prerequisites = [[1, 0], [2, 1], [0, 2]]
+
+print(can_finish(numCourses, prerequisites))  # True
+
+
+# ========================== Minimum Number of Flights =====================
+def min_flights(intervals):
+    # Sort intervals by end time in ascending order
+    sorted_intervals = sorted(intervals, key=lambda x: x[1])
+
+    # Initialize variables
+    current_end = -float('inf')
+    num_flights = 0
+    selected_flights = []
+
+    # Loop through sorted intervals and choose the next interval if it doesn't overlap with the current interval
+    for interval in sorted_intervals:
+        start, end = interval
+        if start >= current_end:
+            num_flights += 1
+            current_end = end
+            selected_flights.append(interval)
+
+    return num_flights, selected_flights
+
+
+flights = [(1, 3), (2, 6), (8, 10)]
+print(min_flights(flights))
+
+# =============================
+"""
+You are given an array flights where flights[i] = [from_i, to_i] 
+represents a flight from city from_i to city to_i.
+
+You are also given three integers src, dst, and k, where src 
+is the starting city, dst is the destination city, and 
+k is the maximum number of stops allowed.
+
+Return the number of possible paths from src to dst that have at most k stops.
+
+Note that the answer is guaranteed to fit in a 32-bit signed integer.
+"""
+
+from collections import defaultdict
+
+
+def findPaths(flights, src, dst, k) -> int:
+    # Create an adjacency list to represent the graph
+    graph = [[] for _ in range(len(flights))]
+    for u, v, w in flights:
+        graph[u].append((v, w))
+
+    # Define a helper function to perform DFS
+    def dfs(node, stops, cost):
+        nonlocal paths
+        # If we reach the destination, increment the count of paths found
+        if node == dst:
+            paths += 1
+            return
+
+        # If we exceed the maximum number of stops or total cost, backtrack
+        if stops > k:
+            return
+
+        # Visit all neighbors and explore the graph recursively
+        for neighbor, weight in graph[node]:
+            dfs(neighbor, stops + 1, cost + weight)
+
+    paths = 0
+
+    # Perform DFS from the source node
+    dfs(src, 0, 0)
+
+    # Return the count of paths found
+    return paths
+
+
+# graph = {
+#     0: [(1, 1), (2, 2)],
+#     1: [(3, 5), (4, 1)],
+#     2: [(4, 1), (5, 2)],
+#     3: [],
+#     4: [],
+#     5: []}
+
+flights = [[0, 1, 100], [1, 2, 100], [2, 3, 600], [1, 4, 200], [4, 3, 100]]
+src = 0
+dst = 3
+k = 10
+
+dist = findPaths(flights, src, dst, k)
+print(dist)
+
+# ==================================== Course schedule =======================
+"""There are a total of numCourses courses you have to take, labeled from 0 to 
+numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] 
+indicates that you must take course bi first if you want to take course ai.
+For example, the pair [0, 1], 
+indicates that to take course 0 you have to first take course 1.
+Return true if you can finish all courses. Otherwise, return false."""
+
+
+print("node list")
+def canFinish(prerequisites):
+    # construct graph
+    graph = defaultdict(list)
+
+    # initiate the graph
+    for crs, pre in prerequisites:
+        graph[pre] = []
+        graph[crs] = []
+
+    # construct adjList
+    for crs, pre in prerequisites:
+        graph[pre].append(crs)
+
+    cycle = True
+    node_list = []
+    visitSet= set()
+    def dfs(graph, node):
+        visitSet.add(node)
+        for v in graph[node]:
+            if len((set(graph[v]).intersection(visitSet)))>=1:
+                global cycle
+                cycle = False
+
+            if v not in visitSet:
+                node_list.append(v)
+                dfs(graph, v)
+        return cycle
+
+    cycle = dfs(graph, 0)
+    return cycle, node_list
+
+prerequisites = [[1, 0], [2, 1], [0, 2], [3, 2], [3, 0], [4, 0], [5, 3], [5, 4]]
+
+print(canFinish(prerequisites))  # True
+
+
+# pilot assignment
+"""Crew Scheduling: Given a set of flights with their departure and arrival times 
+and a set of pilots with their available time slots, 
+assign pilots to flights such that each flight has a pilot assigned and 
+the assigned pilots are available during the flight time. (HackerRank)"""
+
+from datetime import datetime, timedelta
+
+def parse_time(t):
+    """Converts a string time to a datetime object."""
+    return pd.to_datetime(t)
+
+def assign_pilots_to_flights(flights, pilots):
+
+    # clean dictionary
+    flight_dict = {}
+    for flight in flights:
+        flight_dict[flight['id']] = [flight['departure_time'], flight['arrival_time']]
+
+    print(flight_dict)
+
+    pilot_dict = {}
+    for pilot in pilots:
+        pilot_dict[pilot['id']] = pilot['slots']
+
+    print(pilot_dict)
+    print("*********")
+
+    # Create a dictionary to store available pilots for each flight
+    available_pilots = defaultdict(list)
+
+    # Iterate over flights and pilots to find available pilots for each flight
+    for flight_id, time_interval in flight_dict.items():
+        for pilot_id in pilot_dict.keys():
+            for slot in pilot_dict[pilot_id]:
+                if slot[1]>= time_interval[1] and slot[0]<= time_interval[0]:
+                    if pilot_id not in available_pilots[flight_id]:
+                        available_pilots[flight_id].append(pilot_id)
+
+    print(available_pilots)
+    # Assign pilots to flights based on availability and preference
+    assignments = {}
+    for flight_id in flight_dict.keys():
+        for pilot_id in available_pilots[flight_id]:
+            if pilot_id not in assignments.values():
+                assignments[flight_id] = pilot_id
+                break
+
+    return assignments
+
+# Example usage
+# Example usage
+flights = [
+    {'id': 1, 'departure_time': parse_time('8:00'), 'arrival_time': parse_time('10:00')},
+    {'id': 2, 'departure_time': parse_time('10:00'), 'arrival_time': parse_time('12:00')},
+    {'id': 3, 'departure_time': parse_time('14:00'), 'arrival_time': parse_time('16:00')}
+]
+
+pilots = [
+    {'id': 1, 'cost': 100, 'slots': [(parse_time('7:00'), parse_time('12:00')), (parse_time('13:00'), parse_time('17:00')), (parse_time('13:00'), parse_time('17:00'))]},
+    {'id': 2, 'cost': 200, 'slots': [(parse_time('7:00'), parse_time('11:00')), (parse_time('12:00'), parse_time('18:00')), (parse_time('16:00'), parse_time('18:00'))]},
+    {'id': 3, 'cost': 300, 'slots': [(parse_time('9:00'), parse_time('13:00')), (parse_time('14:00'), parse_time('16:00'))]}
+]
+
+assignments = assign_pilots_to_flights(flights, pilots)
+print("assignment")
+print(assignments)
+
+
+# =============================================
+
+"""Flights with Lowest Cost: Given a set of flights with their departure 
+and arrival times and a set of pilots with their hourly rates, assign 
+pilots to flights such that the total cost of pilots' hourly rates is minimized."""""
+
+
+
+# Example usage
+flights = [
+    {'id': 1, 'departure_time': parse_time('8:00'), 'arrival_time': parse_time('10:00')},
+    {'id': 2, 'departure_time': parse_time('10:00'), 'arrival_time': parse_time('12:00')},
+    {'id': 3, 'departure_time': parse_time('14:00'), 'arrival_time': parse_time('16:00')}
+]
+
+pilots = [
+    {'id': 1, 'cost': 100, 'slots': [(parse_time('7:00'), parse_time('12:00')), (parse_time('13:00'), parse_time('17:00')), (parse_time('13:00'), parse_time('17:00'))]},
+    {'id': 2, 'cost': 200, 'slots': [(parse_time('7:00'), parse_time('11:00')), (parse_time('12:00'), parse_time('18:00')), (parse_time('16:00'), parse_time('18:00'))]},
+    {'id': 3, 'cost': 300, 'slots': [(parse_time('9:00'), parse_time('13:00')), (parse_time('14:00'), parse_time('16:00'))]}
+]
+
+
+# ====================
+"""
+The Crew Pairing problem is a common optimization problem in airline crew scheduling. The problem is to assign a set of pilots to a set of flights, subject to the following constraints:
+
+    Each flight must be assigned exactly two pilots.
+    Each pilot can be assigned to at most one flight at a time.
+    The assigned pilots must be available during the departure and arrival times of the assigned flights, and must not be assigned to any other flight during the same time period.
+
+The goal is to find all possible pairs of pilots that can be assigned to flights without violating these constraints.
+"""
+
+from collections import defaultdict
+
+def crew_pairing(flights, pilots):
+    # Create a dictionary of flights indexed by their departure time
+    flight_dict = {}
+    for flight in flights:
+        flight_dict[flight[2]] = [flight[0], flight[1]]
+
+    # Create a dictionary of pilots indexed by their available time slots
+    pilot_dict = {}
+    for pilot, slots in pilots:
+        pilot_dict[pilot] = slots
+
+    # Assign pilots to flights based on availability and proximity of time slots
+    assignments = []
+    for departure in flights_by_departure:
+        flight = flights_by_departure[departure]
+        available_pilots = []
+        for slot in range(flight[0], flight[1]):
+            if slot in pilots_by_slot:
+                available_pilots += pilots_by_slot[slot]
+
+        # Check for pilot availability and assign them to the flight
+        for i in range(len(available_pilots)):
+            for j in range(i + 1, len(available_pilots)):
+                if available_pilots[i] != available_pilots[j]:
+                    assignments.append((flight, (available_pilots[i], (flight[0], flight[1])), (available_pilots[j], (flight[0], flight[1]))))
+                    break
+
+    return assignments
+
+flights = [(1, 3, 'F1'), (2, 5, 'F2'), (4, 7, 'F3'), (6, 8, 'F4')]
+pilots = [('P1', [(1, 2), (4, 5), (7, 8)]),
+          ('P2', [(1, 3), (5, 6)]),
+          ('P3', [(2, 4), (6, 7)])]
+
+assignments = crew_pairing(flights, pilots)
+for flight, pilot1, pilot2 in assignments:
+    print(f"Flight {flight[2]}: Pilots {pilot1[0]} and {pilot2[0]}")
